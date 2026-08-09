@@ -1,0 +1,51 @@
+﻿ * Serving Flask app 'app'
+ * Debug mode: off
+python.exe : WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI 
+server instead.
+At line:1 char:66
++ ... PDFStudio'; & 'C:\Users\Toheed Jutt\AppData\Local\Programs\Python\Pyt ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: This i...server instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ * Running on http://127.0.0.1:5055
+Press CTRL+C to quit
+127.0.0.1 - - [30/Jun/2026 19:57:32] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 19:57:42] "GET /static/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 19:57:42] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 19:57:59] "POST /api/process HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:00:22] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:00:22] "GET /static/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:00:22] "GET /static/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:00:23] "GET /static/glass-doc.png HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:00:23] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:00:23] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [30/Jun/2026 20:00:44] "POST /api/process HTTP/1.1" 400 -
+127.0.0.1 - - [30/Jun/2026 20:00:53] "POST /api/process HTTP/1.1" 400 -
+127.0.0.1 - - [30/Jun/2026 20:01:05] "POST /api/process HTTP/1.1" 400 -
+127.0.0.1 - - [30/Jun/2026 20:01:07] "POST /api/process HTTP/1.1" 400 -
+127.0.0.1 - - [30/Jun/2026 20:01:28] "POST /api/process HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:01:29] "GET /download/2c564a5f2f1d4af59fbc3aab7dee016d/merged.pdf HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:01:29] "GET /download/2c564a5f2f1d4af59fbc3aab7dee016d/merged.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:29] "GET /download/2c564a5f2f1d4af59fbc3aab7dee016d/merged.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:29] "GET /download/2c564a5f2f1d4af59fbc3aab7dee016d/merged.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:29] "GET /download/2c564a5f2f1d4af59fbc3aab7dee016d/merged.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:29] "GET /download/2c564a5f2f1d4af59fbc3aab7dee016d/merged.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:29] "GET /download/2c564a5f2f1d4af59fbc3aab7dee016d/merged.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:57] "POST /api/process HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:01:58] "GET /download/fe90002dd08c4e8ca124089126117078/pages_removed.pdf HTTP/1.1" 206 -
+127.0.0.1 - - [30/Jun/2026 20:02:19] "POST /api/process HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:02:20] "GET /download/d2d74e31f9d440aea647db370819732d/summary.pdf HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:02:43] "POST /api/process HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:03:02] "POST /api/process HTTP/1.1" 200 -
+127.0.0.1 - - [30/Jun/2026 20:03:03] "GET /download/c3207e9f1c914884a619bb15742de118/unlocked.pdf HTTP/1.1" 200 -

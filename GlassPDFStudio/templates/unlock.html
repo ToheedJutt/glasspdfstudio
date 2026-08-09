@@ -1,0 +1,18 @@
+{% extends "tool.html" %}
+{% block tool_steps %}
+<li class="step" data-reveal style="--i:0">
+  <span class="step__num">1</span>
+  <h3 class="step__title">Upload the locked PDF</h3>
+  <p class="step__text">Add a PDF you own that's protected by a password or restrictions.</p>
+</li>
+<li class="step" data-reveal style="--i:1">
+  <span class="step__num">2</span>
+  <h3 class="step__title">Enter its password</h3>
+  <p class="step__text">Provide the current password so we can decrypt the document securely.</p>
+</li>
+<li class="step" data-reveal style="--i:2">
+  <span class="step__num">3</span>
+  <h3 class="step__title">Download it unlocked</h3>
+  <p class="step__text">Get a clean copy with the password removed, ready to open freely.</p>
+</li>
+{% endblock %}

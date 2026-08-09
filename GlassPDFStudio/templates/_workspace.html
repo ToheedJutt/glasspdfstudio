@@ -1,0 +1,109 @@
+{#
+  Shared tool workspace. Renders the upload dropzone, the tool's options form
+  (driven by the catalogue's `tool.options`) and a result panel. Behaviour is
+  wired up client-side by upload.js + app.js, which read the data-* attributes
+  and the serialised catalogue. The API contract (POST /api/process with
+  `tool`, `options` JSON and `files`) is unchanged.
+#}
+{% from "_macros.html" import option_field with context %}
+
+<section class="workspace" data-workspace
+         data-tool-id="{{ tool.id }}"
+         data-multiple="{{ 'true' if tool.multiple else 'false' }}"
+         data-min-files="{{ tool.minFiles }}"
+         data-optional-files="{{ 'true' if tool.optionalFiles else 'false' }}"
+         data-accept="{{ tool.accept }}">
+
+  <div class="container workspace__grid">
+
+    {# ---------------------------------------------------------------- #}
+    {# Left: dropzone + file queue.                                     #}
+    {# ---------------------------------------------------------------- #}
+    <div class="workspace__main">
+      <div class="dropzone" data-dropzone tabindex="0" role="button"
+           aria-label="Upload files for {{ tool.name }}">
+        <input class="dropzone__input" type="file" data-file-input
+               accept="{{ tool.accept }}" {{ 'multiple' if tool.multiple else '' }}
+               hidden>
+        <span class="dropzone__icon" aria-hidden="true">{{ 'upload' | svg_icon | safe }}</span>
+        <p class="dropzone__title">
+          {% if tool.optionalFiles %}
+            Drop files here <span class="dropzone__muted">(optional for this tool)</span>
+          {% else %}
+            Drag &amp; drop {{ 'files' if tool.multiple else 'a file' }} here
+          {% endif %}
+        </p>
+        <p class="dropzone__hint">or <span class="dropzone__browse">browse your device</span></p>
+        <p class="dropzone__accept">Accepted: <span>{{ tool.accept }}</span></p>
+        <span class="dropzone__ring" aria-hidden="true"></span>
+      </div>
+
+      <ul class="filelist" data-filelist aria-live="polite"></ul>
+    </div>
+
+    {# ---------------------------------------------------------------- #}
+    {# Right: options + run button + result panel.                     #}
+    {# ---------------------------------------------------------------- #}
+    <aside class="workspace__side">
+      <form class="option-form" data-option-form novalidate>
+        <div class="option-form__head">
+          <h2 class="option-form__title">Options</h2>
+          <p class="option-form__sub">Fine-tune how {{ tool.name }} runs.</p>
+        </div>
+
+        {% if tool.options %}
+          <div class="option-grid">
+            {% for option in tool.options %}
+              {{ option_field(option) }}
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="option-form__empty">
+            No settings needed — just add your {{ 'files' if tool.multiple else 'file' }}
+            and run.
+          </p>
+        {% endif %}
+
+        <button class="btn btn--primary btn--block btn--run" type="submit"
+                data-run-btn disabled>
+          <span class="btn__label">
+            <span class="btn__icon" aria-hidden="true">{{ 'play' | svg_icon | safe }}</span>
+            Run {{ tool.name }}
+          </span>
+          <span class="btn__spinner" aria-hidden="true"></span>
+        </button>
+
+        <button class="btn btn--ghost btn--block btn--reset" type="button"
+                data-reset-btn hidden>
+          <span class="btn__icon" aria-hidden="true">{{ 'reset' | svg_icon | safe }}</span>
+          Start over
+        </button>
+      </form>
+
+      {# Progress + result surface — populated by app.js. #}
+      <div class="result" data-result hidden>
+        <div class="result__progress" data-progress-wrap>
+          <div class="result__bar"><span data-progress-bar></span></div>
+          <p class="result__status" data-progress-label>Processing…</p>
+        </div>
+
+        <div class="result__done" data-result-done hidden>
+          <span class="result__check" aria-hidden="true">{{ 'check' | svg_icon | safe }}</span>
+          <h3 class="result__title" data-result-title>Your file is ready</h3>
+          <p class="result__msg" data-result-message></p>
+          <ul class="result__details" data-result-details></ul>
+          <a class="btn btn--primary btn--block" data-download href="#" download>
+            <span class="btn__icon" aria-hidden="true">{{ 'download' | svg_icon | safe }}</span>
+            Download
+          </a>
+        </div>
+
+        <div class="result__error" data-result-error hidden>
+          <span class="result__cross" aria-hidden="true">{{ 'close' | svg_icon | safe }}</span>
+          <h3 class="result__title">Something went wrong</h3>
+          <p class="result__msg" data-error-message></p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

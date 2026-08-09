@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}Page not found — {{ APP_NAME }}{% endblock %}
+{% block body_class %}page-404{% endblock %}
+
+{% block main %}
+  <section class="error-page">
+    <div class="container error-page__inner">
+      <div class="error-page__code" aria-hidden="true">
+        <span class="grad-text">4</span>
+        <span class="error-page__doc">{{ 'doc' | svg_icon | safe }}</span>
+        <span class="grad-text">4</span>
+      </div>
+      <h1 class="error-page__title">This page slipped out of the document</h1>
+      <p class="error-page__text">
+        The page you're looking for doesn't exist or has moved. Let's get you back to your tools.
+      </p>
+      <div class="error-page__actions">
+        <a class="btn btn--primary btn--lg" href="{{ url_for('home.index') }}">Back to home</a>
+        <a class="btn btn--ghost btn--lg" href="{{ url_for('home.all_tools') }}">Browse all tools</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

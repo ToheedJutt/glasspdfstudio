@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GlassPDF Studio</title>
+    <link rel="stylesheet" href="static/app.css">
+  </head>
+  <body>
+    <div class="scene" aria-hidden="true">
+      <div class="glass-sheet sheet-a"></div>
+      <div class="glass-sheet sheet-b"></div>
+      <div class="glass-sheet sheet-c"></div>
+    </div>
+
+    <header class="topbar glass-panel">
+      <a class="brand" href="#" aria-label="GlassPDF Studio home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>GlassPDF Studio</span>
+      </a>
+      <div class="top-actions">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z"/></svg>
+          <input id="searchInput" type="search" placeholder="Search tools">
+        </div>
+        <div class="theme-switch" role="group" aria-label="Theme">
+          <button type="button" data-theme-option="system" class="active">System</button>
+          <button type="button" data-theme-option="light">Light</button>
+          <button type="button" data-theme-option="dark">Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="command-row glass-panel">
+        <div>
+          <p class="eyebrow">Local PDF workspace</p>
+          <h1>All PDF actions in one glassy dashboard.</h1>
+        </div>
+        <div class="system-status" id="systemStatus">
+          <span class="status-dot"></span>
+          <span>Checking engine</span>
+        </div>
+      </section>
+
+      <nav class="category-tabs" id="categoryTabs" aria-label="Tool categories"></nav>
+
+      <section class="tools-area">
+        <div class="tools-grid" id="toolsGrid"></div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="toolModal" hidden>
+      <section class="tool-modal glass-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="icon-btn close-btn" id="closeModal" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="modal-head">
+          <span class="modal-icon" id="modalIcon"></span>
+          <div>
+            <p id="modalCategory" class="eyebrow"></p>
+            <h2 id="modalTitle"></h2>
+          </div>
+        </div>
+
+        <form id="toolForm">
+          <label class="file-drop" id="dropZone">
+            <input id="fileInput" name="files" type="file">
+            <span class="drop-icon" data-icon="upload"></span>
+            <span id="fileLabel">Select files</span>
+          </label>
+          <div class="selected-files" id="selectedFiles"></div>
+          <div class="options-grid" id="optionsGrid"></div>
+          <div class="form-actions">
+            <button class="secondary-btn" type="button" id="resetForm">
+              <span data-icon="reset"></span>
+              <span>Reset</span>
+            </button>
+            <button class="primary-btn" type="submit" id="processButton">
+              <span data-icon="spark"></span>
+              <span>Process</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="result-panel" id="resultPanel" hidden>
+          <div class="progress-line" id="progressLine"></div>
+          <p id="resultMessage"></p>
+          <ul id="resultDetails"></ul>
+          <a class="download-btn" id="downloadLink" href="#" download>
+            <span data-icon="download"></span>
+            <span>Download</span>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <script src="static/app.js"></script>
+  </body>
+</html>

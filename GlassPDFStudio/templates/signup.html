@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign up — {{ APP_NAME }}{% endblock %}
+{% block body_class %}page-auth{% endblock %}
+
+{% block main %}
+  <section class="auth">
+    <div class="container">
+      <h1>Sign up</h1>
+      <form method="post" class="glass-card">
+        <div class="field">
+          <label class="field__label">Email</label>
+          <input class="field__control" type="email" name="email" required>
+        </div>
+        <div class="field">
+          <label class="field__label">Password</label>
+          <input class="field__control" type="password" name="password" required>
+        </div>
+        <button class="btn btn--primary" type="submit">Create account</button>
+      </form>
+      <p>Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a></p>
+    </div>
+  </section>
+{% endblock %}

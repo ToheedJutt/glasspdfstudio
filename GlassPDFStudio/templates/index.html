@@ -1,0 +1,191 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import tool_card with context %}
+
+{% block body_class %}page-home{% endblock %}
+
+{% block main %}
+  {# ================================================================ #}
+  {# HERO                                                             #}
+  {# ================================================================ #}
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <span class="hero__eyebrow" data-reveal>
+          <span class="hero__eyebrow-dot"></span> 30+ premium PDF tools · 100% free
+        </span>
+        <h1 class="hero__title" data-reveal>
+          Every PDF Tool<br>You'll <span class="grad-text">Ever Need</span>
+        </h1>
+        <p class="hero__lead" data-reveal>
+          Merge, split, compress, convert and edit PDFs in seconds.
+          Beautifully simple, lightning fast and completely private.
+        </p>
+
+        {# Large upload / drag-drop launcher. #}
+        <div class="hero-drop" data-hero-drop tabindex="0" role="button"
+             aria-label="Upload PDF files to get started" data-reveal>
+          <input type="file" data-hero-input multiple hidden
+                 accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,.pptx,.xlsx,image/*,application/pdf">
+          <span class="hero-drop__icon" aria-hidden="true">{{ 'upload' | svg_icon | safe }}</span>
+          <span class="hero-drop__text">
+            <strong>Drop your files here</strong>
+            <span>or click to choose from your device</span>
+          </span>
+          <span class="hero-drop__cta btn btn--primary">Select files</span>
+        </div>
+
+        <div class="hero__trust" data-reveal>
+          <span>{{ 'shield' | svg_icon | safe }} Private &amp; secure</span>
+          <span>{{ 'bolt' | svg_icon | safe }} No sign-up needed</span>
+          <span>{{ 'gift' | svg_icon | safe }} No watermarks</span>
+        </div>
+      </div>
+
+      {# Floating preview card cluster. #}
+      <div class="hero__visual" aria-hidden="true" data-reveal>
+        <div class="hero-card hero-card--main">
+          <div class="hero-card__bar"><span></span><span></span><span></span></div>
+          <div class="hero-card__lines">
+            <i style="--w:88%"></i><i style="--w:96%"></i><i style="--w:70%"></i>
+            <i style="--w:82%"></i><i style="--w:60%"></i>
+          </div>
+          <div class="hero-card__badge">{{ 'check' | svg_icon | safe }} Ready</div>
+        </div>
+        <div class="hero-chip hero-chip--merge">{{ 'merge' | svg_icon | safe }} Merge</div>
+        <div class="hero-chip hero-chip--compress">{{ 'compress' | svg_icon | safe }} Compress</div>
+        <div class="hero-chip hero-chip--convert">{{ 'doc' | svg_icon | safe }} Convert</div>
+      </div>
+    </div>
+  </section>
+
+  {# Quick-action chooser revealed after files are dropped on the hero. #}
+  <div class="launch-chooser" data-launch-chooser hidden>
+    <div class="launch-chooser__backdrop" data-launch-close></div>
+    <div class="launch-chooser__panel" role="dialog" aria-modal="true"
+         aria-label="Choose a tool for your files">
+      <button class="launch-chooser__x icon-btn" type="button" data-launch-close
+              aria-label="Close">{{ 'close' | svg_icon | safe }}</button>
+      <h2 class="launch-chooser__title">What would you like to do?</h2>
+      <p class="launch-chooser__sub"><span data-launch-count>0</span> file(s) ready — pick a tool to continue.</p>
+      <div class="launch-chooser__grid">
+        {% for tool in featured_tools[:8] %}
+          <a class="launch-tile" href="{{ url_for('tools.page', slug=tool.slug) }}"
+             data-launch-tool data-slug="{{ tool.slug }}">
+            <span class="launch-tile__icon" data-cat="{{ tool.category }}">{{ tool.icon | svg_icon | safe }}</span>
+            <span class="launch-tile__name">{{ tool.name }}</span>
+          </a>
+        {% endfor %}
+      </div>
+      <a class="launch-chooser__all" href="{{ url_for('home.all_tools') }}">See all tools →</a>
+    </div>
+  </div>
+
+  {# ================================================================ #}
+  {# STATS BAND                                                       #}
+  {# ================================================================ #}
+  <section class="stats">
+    <div class="container stats__inner">
+      <div class="stat" data-reveal><span class="stat__num" data-count="33">33</span><span class="stat__label">PDF tools</span></div>
+      <div class="stat" data-reveal><span class="stat__num" data-count="100">100</span><span class="stat__suffix">%</span><span class="stat__label">Free forever</span></div>
+      <div class="stat" data-reveal><span class="stat__num" data-count="0">0</span><span class="stat__label">Watermarks</span></div>
+      <div class="stat" data-reveal><span class="stat__num" data-count="6">6</span><span class="stat__label">Tool categories</span></div>
+    </div>
+  </section>
+
+  {# ================================================================ #}
+  {# FEATURED TOOLS GRID                                              #}
+  {# ================================================================ #}
+  <section class="tools-section" id="tools">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Popular tools</span>
+        <h2 class="section-title">Get started in one click</h2>
+        <p class="section-sub">The tools people reach for most — all free, all instant.</p>
+      </div>
+
+      <div class="tool-grid">
+        {% for tool in featured_tools %}
+          {{ tool_card(tool, loop.index0) }}
+        {% endfor %}
+      </div>
+
+      <div class="tools-section__more" data-reveal>
+        <a class="btn btn--primary btn--lg" href="{{ url_for('home.all_tools') }}">
+          Explore all {{ ALL_TOOLS | length }} tools
+          <span class="btn__icon" aria-hidden="true">{{ 'arrow' | svg_icon | safe }}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {# ================================================================ #}
+  {# CATEGORY SHOWCASE                                                #}
+  {# ================================================================ #}
+  <section class="cats">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Everything in one place</span>
+        <h2 class="section-title">A tool for every job</h2>
+      </div>
+      <div class="cats__grid">
+        {% for cat in categories %}
+          <a class="cat-card" href="{{ url_for('home.all_tools') }}#cat-{{ cat.id | replace(' ', '-') | lower }}"
+             data-reveal data-cat="{{ cat.id }}" style="--accent: {{ cat.accent }}; --i: {{ loop.index0 }}">
+            <span class="cat-card__label">{{ cat.label }}</span>
+            <span class="cat-card__count">{{ tools_by_category[cat.id] | length }} tools</span>
+            <span class="cat-card__tools">
+              {% for t in tools_by_category[cat.id][:4] %}<span>{{ t.name }}</span>{% endfor %}
+            </span>
+            <span class="cat-card__go" aria-hidden="true">{{ 'arrow' | svg_icon | safe }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {# ================================================================ #}
+  {# WHY CHOOSE — FEATURES                                            #}
+  {# ================================================================ #}
+  <section class="features">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Why GlassPDFStudio</span>
+        <h2 class="section-title">Built to feel effortless</h2>
+        <p class="section-sub">Powerful enough for pros, simple enough for everyone.</p>
+      </div>
+
+      <div class="feature-grid">
+        {% set features = [
+          {'icon':'bolt','title':'Blazing fast','text':'Optimised processing gets your files back in seconds, not minutes.'},
+          {'icon':'shield','title':'Private and secure','text':'Your documents are processed on your own machine and never shared.'},
+          {'icon':'star','title':'No watermarks','text':'Clean, professional output every time — we never brand your files.'},
+          {'icon':'gift','title':'Completely free','text':'Every tool is free to use with no hidden limits or paywalls.'},
+          {'icon':'cloud','title':'Cloud processing','text':'Heavy lifting handled for you, so even large PDFs feel light.'},
+          {'icon':'offline','title':'Works offline','text':'Run the studio locally and keep working without an internet connection.'}
+        ] %}
+        {% for f in features %}
+          <div class="feature" data-reveal style="--i: {{ loop.index0 }}">
+            <span class="feature__icon" aria-hidden="true">{{ f.icon | svg_icon | safe }}</span>
+            <h3 class="feature__title">{{ f.title }}</h3>
+            <p class="feature__text">{{ f.text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {# ================================================================ #}
+  {# CTA BANNER                                                       #}
+  {# ================================================================ #}
+  <section class="cta-band">
+    <div class="container cta-band__inner" data-reveal>
+      <div class="cta-band__glow" aria-hidden="true"></div>
+      <h2 class="cta-band__title">Ready to tame your PDFs?</h2>
+      <p class="cta-band__text">Pick a tool and get a polished result in seconds — no account, no cost.</p>
+      <div class="cta-band__actions">
+        <a class="btn btn--primary btn--lg" href="{{ url_for('home.all_tools') }}">Browse all tools</a>
+        <a class="btn btn--ghost btn--lg" href="{{ url_for('tools.page', slug='merge-pdf') }}">Try Merge PDF</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import tool_card with context %}
+
+{% block title %}{{ tool.name }} — {{ APP_NAME }}{% endblock %}
+{% block meta_description %}{{ tool.description }}{% endblock %}
+{% block body_class %}page-tool{% endblock %}
+
+{% block main %}
+  {# ---------------------------------------------------------------- #}
+  {# Tool hero.                                                        #}
+  {# ---------------------------------------------------------------- #}
+  <section class="tool-hero">
+    <div class="container tool-hero__inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="{{ url_for('home.index') }}">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ url_for('home.all_tools') }}">Tools</a>
+        <span aria-hidden="true">/</span>
+        <span class="crumbs__here">{{ tool.name }}</span>
+      </nav>
+
+      <div class="tool-hero__head" data-reveal>
+        <span class="tool-hero__icon" data-cat="{{ tool.category }}" aria-hidden="true">
+          {{ tool.icon | svg_icon | safe }}
+        </span>
+        <div>
+          <span class="chip chip--cat" data-cat="{{ tool.category }}">{{ tool.category }}</span>
+          <h1 class="tool-hero__title">{% block tool_title %}{{ tool.name }}{% endblock %}</h1>
+          <p class="tool-hero__desc">{% block tool_desc %}{{ tool.description }}{% endblock %}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ---------------------------------------------------------------- #}
+  {# Workspace (upload + options + result).                           #}
+  {# ---------------------------------------------------------------- #}
+  {% block tool_workspace %}{% include "_workspace.html" %}{% endblock %}
+
+  {# ---------------------------------------------------------------- #}
+  {# How it works — overridden by bespoke tool templates.             #}
+  {# ---------------------------------------------------------------- #}
+  <section class="howto">
+    <div class="container">
+      <h2 class="section-title howto__title">How to {{ tool.name | lower }}</h2>
+      <ol class="steps">
+        {% block tool_steps %}
+        <li class="step" data-reveal style="--i:0">
+          <span class="step__num">1</span>
+          <h3 class="step__title">Upload your {{ 'files' if tool.multiple else 'file' }}</h3>
+          <p class="step__text">Drag &amp; drop or browse to add your {{ 'documents' if tool.multiple else 'document' }}. Everything is processed securely.</p>
+        </li>
+        <li class="step" data-reveal style="--i:1">
+          <span class="step__num">2</span>
+          <h3 class="step__title">Adjust the options</h3>
+          <p class="step__text">Tune the settings on the right to get exactly the result you want.</p>
+        </li>
+        <li class="step" data-reveal style="--i:2">
+          <span class="step__num">3</span>
+          <h3 class="step__title">Download instantly</h3>
+          <p class="step__text">Run the tool and grab your finished file in seconds — no sign-up required.</p>
+        </li>
+        {% endblock %}
+      </ol>
+    </div>
+  </section>
+
+  {# ---------------------------------------------------------------- #}
+  {# Related tools from the same category.                            #}
+  {# ---------------------------------------------------------------- #}
+  <section class="related">
+    <div class="container">
+      <h2 class="section-title">More {{ tool.category }} tools</h2>
+      <div class="tool-grid tool-grid--compact">
+        {% set shown = [] %}
+        {% for other in ALL_TOOLS if other.category == tool.category and other.id != tool.id %}
+          {% if loop.index0 < 6 %}{{ tool_card(other, loop.index0) }}{% endif %}
+        {% endfor %}
+      </div>
+      <div class="related__all">
+        <a class="btn btn--ghost" href="{{ url_for('home.all_tools') }}">
+          Browse all tools
+          <span class="btn__icon" aria-hidden="true">{{ 'arrow' | svg_icon | safe }}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

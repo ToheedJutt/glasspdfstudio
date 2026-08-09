@@ -1,0 +1,18 @@
+{% extends "tool.html" %}
+{% block tool_steps %}
+<li class="step" data-reveal style="--i:0">
+  <span class="step__num">1</span>
+  <h3 class="step__title">Upload your PDF</h3>
+  <p class="step__text">Add the document you want to turn into images.</p>
+</li>
+<li class="step" data-reveal style="--i:1">
+  <span class="step__num">2</span>
+  <h3 class="step__title">Pick pages &amp; quality</h3>
+  <p class="step__text">Choose <code>all</code> or specific pages, then set the scale from Standard up to Ultra for crisp, high-resolution output.</p>
+</li>
+<li class="step" data-reveal style="--i:2">
+  <span class="step__num">3</span>
+  <h3 class="step__title">Download your JPGs</h3>
+  <p class="step__text">Every selected page is rendered to a high-quality JPG, delivered ready to use.</p>
+</li>
+{% endblock %}

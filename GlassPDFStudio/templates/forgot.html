@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}Forgot password — {{ APP_NAME }}{% endblock %}
+{% block body_class %}page-auth{% endblock %}
+
+{% block main %}
+  <section class="auth">
+    <div class="container">
+      <h1>Reset password</h1>
+      <p>Enter your account email and we'll send a verification code.</p>
+      <form method="post" class="glass-card">
+        <div class="field">
+          <label class="field__label">Email</label>
+          <input class="field__control" type="email" name="email" required>
+        </div>
+        <button class="btn btn--primary" type="submit">Send code</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

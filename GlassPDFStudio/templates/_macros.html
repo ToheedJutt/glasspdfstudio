@@ -1,0 +1,80 @@
+{#
+  Shared Jinja macros for GlassPDFStudio.
+  - svg(name)            inline icon from the server-side ICON_PATHS map
+  - tool_card(tool)      a premium, animated grid card linking to the workspace
+  - option_field(option) a single labelled form control for a tool option
+#}
+
+{% macro svg(name) -%}
+{{ name | svg_icon | safe }}
+{%- endmacro %}
+
+
+{% macro tool_card(tool, index=0) -%}
+<a class="tool-card" href="{{ url_for('tools.page', slug=tool.slug) }}"
+   data-reveal data-category="{{ tool.category }}"
+   style="--i: {{ index }};"
+   aria-label="{{ tool.name }} — {{ tool.description }}">
+  <span class="tool-card__icon" data-cat="{{ tool.category }}" aria-hidden="true">
+    {{ svg(tool.icon) }}
+  </span>
+  <span class="tool-card__body">
+    <span class="tool-card__title">{{ tool.name }}</span>
+    <span class="tool-card__desc">{{ tool.description }}</span>
+  </span>
+  <span class="tool-card__go" aria-hidden="true">{{ svg('arrow') }}</span>
+</a>
+{%- endmacro %}
+
+
+{% macro option_field(option) -%}
+{% set full = ' field--full' if option.full else '' %}
+{% if option.type == 'textarea' %}
+  <label class="field{{ full }}">
+    <span class="field__label">{{ option.label }}</span>
+    <textarea class="field__control" name="{{ option.name }}" rows="4"
+      placeholder="{{ option.placeholder or '' }}">{{ option.value or '' }}</textarea>
+  </label>
+{% elif option.type == 'select' %}
+  <label class="field{{ full }}">
+    <span class="field__label">{{ option.label }}</span>
+    <div class="field__select">
+      <select class="field__control" name="{{ option.name }}">
+        {% for value, label in option.options %}
+          <option value="{{ value }}"
+            {{ 'selected' if (option.value | string) == (value | string) else '' }}>
+            {{ label }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </label>
+{% elif option.type == 'checklist' %}
+  <div class="field field--full">
+    <span class="field__label">{{ option.label }}</span>
+    <div class="checklist" role="group" aria-label="{{ option.label }}">
+      {% for value, label in option.options %}
+        <label class="checklist__item">
+          <input type="checkbox" name="{{ option.name }}" value="{{ value }}"
+                 data-array="true">
+          <span>{{ label }}</span>
+        </label>
+      {% endfor %}
+    </div>
+  </div>
+{% elif option.type == 'color' %}
+  <label class="field{{ full }}">
+    <span class="field__label">{{ option.label }}</span>
+    <input class="field__control field__control--color" name="{{ option.name }}"
+      type="color" value="{{ option.value or '#0f172a' }}">
+  </label>
+{% else %}
+  <label class="field{{ full }}">
+    <span class="field__label">{{ option.label }}</span>
+    <input class="field__control" name="{{ option.name }}"
+      type="{{ option.type or 'text' }}" value="{{ option.value or '' }}"
+      placeholder="{{ option.placeholder or '' }}"
+      {% if option.step %}step="{{ option.step }}"{% endif %}>
+  </label>
+{% endif %}
+{%- endmacro %}

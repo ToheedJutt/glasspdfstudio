@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import tool_card with context %}
+
+{% block title %}AI PDF Tools — {{ APP_NAME }}{% endblock %}
+{% block meta_description %}Summarize, translate and automate your PDFs with the AI-powered tools in GlassPDFStudio.{% endblock %}
+{% block body_class %}page-ai{% endblock %}
+
+{% block main %}
+  <section class="ai-hero">
+    <div class="container ai-hero__inner">
+      <div class="ai-hero__copy" data-reveal>
+        <span class="section-kicker section-kicker--ai">
+          <span class="ai-spark">{{ 'spark' | svg_icon | safe }}</span> Powered by intelligence
+        </span>
+        <h1 class="page-hero__title">Smarter PDFs with <span class="grad-text grad-text--ai">AI</span></h1>
+        <p class="page-hero__lead">
+          Go beyond editing. Summarize long documents, translate across languages
+          and chain tools into automated workflows — all in a click.
+        </p>
+        <div class="ai-hero__actions">
+          <a class="btn btn--primary btn--lg" href="{{ url_for('tools.page', slug='ai-summarizer') }}">
+            <span class="btn__icon" aria-hidden="true">{{ 'brain' | svg_icon | safe }}</span>
+            Summarize a PDF
+          </a>
+          <a class="btn btn--ghost btn--lg" href="{{ url_for('tools.page', slug='create-workflow') }}">
+            Build a workflow
+          </a>
+        </div>
+      </div>
+      <div class="ai-hero__orb" aria-hidden="true" data-reveal>
+        <span class="ai-orb"></span>
+        <span class="ai-orb__ring ai-orb__ring--1"></span>
+        <span class="ai-orb__ring ai-orb__ring--2"></span>
+        <span class="ai-orb__glyph">{{ 'brain' | svg_icon | safe }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ai-tools">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">Intelligence toolkit</span>
+        <h2 class="section-title">AI &amp; smart tools</h2>
+        <p class="section-sub">Local, private intelligence — no data leaves your control.</p>
+      </div>
+      <div class="tool-grid">
+        {% for tool in ai_tools %}
+          {{ tool_card(tool, loop.index0) }}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="ai-steps">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="section-kicker">How it works</span>
+        <h2 class="section-title">From document to insight</h2>
+      </div>
+      <div class="ai-steps__grid">
+        <div class="ai-step" data-reveal style="--i:0">
+          <span class="ai-step__icon">{{ 'upload' | svg_icon | safe }}</span>
+          <h3>1 · Upload</h3>
+          <p>Add any PDF — reports, contracts, research or notes.</p>
+        </div>
+        <div class="ai-step" data-reveal style="--i:1">
+          <span class="ai-step__icon">{{ 'brain' | svg_icon | safe }}</span>
+          <h3>2 · Analyse</h3>
+          <p>Our engine reads, ranks and understands the content locally.</p>
+        </div>
+        <div class="ai-step" data-reveal style="--i:2">
+          <span class="ai-step__icon">{{ 'spark' | svg_icon | safe }}</span>
+          <h3>3 · Get results</h3>
+          <p>Receive a concise summary, translation or automated output.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

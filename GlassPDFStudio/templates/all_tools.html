@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import tool_card with context %}
+
+{% block title %}All PDF Tools — {{ APP_NAME }}{% endblock %}
+{% block meta_description %}Browse all {{ tools | length }} PDF tools in GlassPDFStudio — organize, optimize, convert, edit, secure and supercharge your PDFs with AI.{% endblock %}
+{% block body_class %}page-tools{% endblock %}
+
+{% block main %}
+  <section class="page-hero">
+    <div class="container page-hero__inner" data-reveal>
+      <span class="section-kicker">The full toolkit</span>
+      <h1 class="page-hero__title">All PDF tools, <span class="grad-text">one home</span></h1>
+      <p class="page-hero__lead">
+        {{ tools | length }} carefully crafted tools across {{ categories | length }} categories.
+        Search, filter and jump straight into whatever you need.
+      </p>
+
+      <div class="toolbar">
+        <label class="toolbar__search">
+          <span class="toolbar__search-icon" aria-hidden="true">{{ 'search' | svg_icon | safe }}</span>
+          <input type="text" data-filter-input placeholder="Search tools by name…"
+                 autocomplete="off" spellcheck="false" aria-label="Filter tools">
+        </label>
+      </div>
+
+      <div class="chips" data-filter-chips role="tablist" aria-label="Filter by category">
+        <button class="chip chip--filter is-active" type="button"
+                data-filter="all" role="tab" aria-selected="true">All</button>
+        {% for cat in categories %}
+          <button class="chip chip--filter" type="button" data-filter="{{ cat.id }}"
+                  role="tab" aria-selected="false" style="--accent: {{ cat.accent }}">
+            {{ cat.label }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="catalogue">
+    <div class="container">
+      {% for cat in categories %}
+        <div class="cat-block" data-cat-block="{{ cat.id }}"
+             id="cat-{{ cat.id | replace(' ', '-') | lower }}"
+             style="--accent: {{ cat.accent }}">
+          <div class="cat-block__head">
+            <h2 class="cat-block__title">
+              <span class="cat-block__dot" aria-hidden="true"></span>{{ cat.id }}
+            </h2>
+            <span class="cat-block__count">{{ tools_by_category[cat.id] | length }} tools</span>
+          </div>
+          <div class="tool-grid">
+            {% for tool in tools_by_category[cat.id] %}
+              {{ tool_card(tool, loop.index0) }}
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+
+      <p class="catalogue__empty" data-filter-empty hidden>
+        No tools match <span data-filter-term></span>. Try another search.
+      </p>
+    </div>
+  </section>
+{% endblock %}

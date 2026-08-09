@@ -1,0 +1,18 @@
+{% extends "tool.html" %}
+{% block tool_steps %}
+<li class="step" data-reveal style="--i:0">
+  <span class="step__num">1</span>
+  <h3 class="step__title">Upload your PDF</h3>
+  <p class="step__text">Add the document you want to keep private.</p>
+</li>
+<li class="step" data-reveal style="--i:1">
+  <span class="step__num">2</span>
+  <h3 class="step__title">Set a new password</h3>
+  <p class="step__text">Choose a strong password. If the file is already protected, enter its current password too.</p>
+</li>
+<li class="step" data-reveal style="--i:2">
+  <span class="step__num">3</span>
+  <h3 class="step__title">Download the encrypted PDF</h3>
+  <p class="step__text">Your document is locked with strong encryption — only people with the password can open it.</p>
+</li>
+{% endblock %}
