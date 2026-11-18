@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GlassPDF Studio — Local-first PDF toolkit</title>
 <meta name="description" content="GlassPDF Studio is a free, open-source PDF toolkit that runs 100% on your own machine. Merge, split, compress, convert, watermark, protect and edit PDFs from a frosted-glass dashboard.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,6 +20,7 @@
   html{scroll-behavior:smooth}
   body{margin:0;font-family:"Poppins","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
     background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+  /* ---- animated aurora background ---- */
   .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;background:
     radial-gradient(1100px 600px at 15% -10%,#1d3465 0%,transparent 60%),
     radial-gradient(900px 550px at 90% 0%,#2e2160 0%,transparent 55%),
@@ -30,16 +33,14 @@
   @keyframes drift2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-110px,90px) scale(.95)}}
   @keyframes drift3{from{transform:translate(0,0) scale(1)}to{transform:translate(-90px,-70px) scale(1.2)}}
   .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 64px}
+  /* ---- header ---- */
   header{position:sticky;top:14px;z-index:10;display:flex;align-items:center;gap:12px;padding:14px 20px;
     background:rgba(16,22,44,.55);border:1px solid var(--panel-border);border-radius:18px;
     backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     animation:drop .7s var(--spring) both}
   @keyframes drop{from{opacity:0;transform:translateY(-18px) scale(.98)}to{opacity:1;transform:none}}
-  .mark{width:34px;height:34px;border-radius:10px;flex:none;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));background-size:160% 160%;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 6px 18px rgba(110,168,254,.35);
-    animation:markShift 6s ease-in-out infinite alternate}
-  @keyframes markShift{from{background-position:0% 0%}to{background-position:100% 100%}}
+  .mark{width:34px;height:34px;border-radius:10px;flex:none;object-fit:cover;display:block;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 6px 18px rgba(110,168,254,.35)}
   header .name{font-weight:700;font-size:18px;letter-spacing:.2px}
   header nav{margin-left:auto;display:flex;gap:18px}
   header nav a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;position:relative;padding:2px 0}
@@ -47,6 +48,7 @@
     background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s var(--spring)}
   header nav a:hover{color:var(--text)}
   header nav a:hover::after{width:100%}
+  /* ---- hero ---- */
   .hero{text-align:center;padding:74px 16px 26px}
   .hero>*{animation:rise .8s var(--spring) both}
   .hero>*:nth-child(2){animation-delay:.08s}.hero>*:nth-child(3){animation-delay:.16s}
@@ -75,6 +77,7 @@
   .btn.primary:hover::after{left:130%}
   .btn.ghost{background:var(--panel);color:var(--text);backdrop-filter:blur(8px)}
   .btn.ghost:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.35)}
+  /* ---- marquee ---- */
   .marquee{margin:52px auto 0;max-width:900px;overflow:hidden;position:relative;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
             mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
@@ -83,10 +86,12 @@
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .track span{padding:0 14px;color:var(--muted);font-size:14.5px;font-weight:500;white-space:nowrap}
   .track b{color:var(--accent2);font-weight:400}
+  /* ---- note ---- */
   .note{max-width:760px;margin:40px auto 0;padding:18px 22px;background:var(--panel);
     border:1px solid var(--panel-border);border-radius:16px;color:var(--muted);
     font-size:15px;line-height:1.6;text-align:left;backdrop-filter:blur(10px)}
   .note strong{color:var(--text)}
+  /* ---- sections & reveal ---- */
   h2{font-size:26px;margin:58px 0 6px;font-weight:700}
   .h2sub{color:var(--muted);margin:0 0 22px;font-size:15.5px}
   .rv{opacity:0;transform:translateY(28px) scale(.99);transition:opacity .7s ease,transform .7s var(--spring)}
@@ -133,7 +138,7 @@
 <div class="wrap">
 
   <header>
-    <span class="mark" aria-hidden="true"></span>
+    <img class="mark" src="logo-icon.png" alt="GlassPDF Studio logo">
     <span class="name">GlassPDF Studio</span>
     <nav>
       <a href="#tools">Tools</a>
@@ -244,14 +249,17 @@ python app.py</pre>
 
 </div>
 <script>
+  // Duplicate the marquee track so the scroll loops seamlessly.
   var track = document.getElementById("track");
   track.innerHTML += track.innerHTML;
+  // Scroll-reveal for sections and cards.
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
     });
   }, { threshold: 0.12 });
   document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+  // Copy button for the install commands.
   document.getElementById("copyBtn").addEventListener("click", function () {
     var btn = this;
     navigator.clipboard.writeText(document.getElementById("installCode").innerText).then(function () {
