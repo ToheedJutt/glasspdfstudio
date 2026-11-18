@@ -22,9 +22,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='20'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+
   <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
 
@@ -50,6 +51,7 @@
     <div class="navbar__inner container">
       <a class="brand" href="{{ url_for('home.index') }}" aria-label="{{ APP_NAME }} home">
         <span class="brand__mark" aria-hidden="true">{{ 'spark' | svg_icon | safe }}</span>
+        <img class="brand__logo" src="{{ url_for('static', filename='icons/icon-192.png') }}" alt="" width="30" height="30">
         <span class="brand__name">Glass<span class="brand__accent">PDF</span>Studio</span>
       </a>
 
