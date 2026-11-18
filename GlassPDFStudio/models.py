@@ -67,6 +67,41 @@ class PasswordReset(db.Model):
         return f"<PasswordReset {self.email}>"
 
 
+class FileActivity(db.Model):
+    """One processed file in a member's personal history.
+
+    Recorded for signed-in users every time a tool finishes, so members
+    can see (and re-download) what they converted or generated.
+    """
+
+    __tablename__ = "file_activities"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(255), nullable=False, index=True)
+    tool = db.Column(db.String(64), nullable=False)
+    input_names = db.Column(db.Text, nullable=False, default="")
+    output_name = db.Column(db.String(255), nullable=False)
+    job_id = db.Column(db.String(64), nullable=False)
+    output_size = db.Column(db.Integer, nullable=False, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self) -> str:
+        return f"<FileActivity {self.email} {self.tool} -> {self.output_name}>"
+
+
+class LoginOTP(db.Model):
+    """One-time sign-in code emailed to an existing user."""
+
+    __tablename__ = "login_otps"
+
+    email = db.Column(db.String(255), primary_key=True)
+    otp = db.Column(db.String(6), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self) -> str:
+        return f"<LoginOTP {self.email}>"
+
+
 class TrialBlock(db.Model):
     """Records IP/device combos that have claimed a trial to prevent abuse."""
 
