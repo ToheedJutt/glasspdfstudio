@@ -1213,6 +1213,18 @@ body.page-home {
   font-size: 0.78rem;
 }
 
+/* ---------- v3.1 fixes ---------- */
+/* Auth split must be full-bleed: base style.css pads every main > section */
+.page-auth .auth-split {
+  padding-block: 0;
+}
+
+/* Give the dark footer a distinct band in dark theme */
+[data-theme="dark"] .footer {
+  background: #05070d;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .tool-card,
