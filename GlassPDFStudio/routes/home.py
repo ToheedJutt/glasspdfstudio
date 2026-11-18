@@ -54,12 +54,13 @@ def index():
         tools_by_category={c["id"]: tools_by_category(c["id"]) for c in CATEGORIES},
     )
 
+
 @home_bp.route("/sw.js")
 def service_worker():
-"""Serve the PWA service worker from the site root.
+    """Serve the PWA service worker from the site root.
 
     The file lives in static/, but a worker registered from /static/sw.js
-        could only control pages under /static/ — serving it at /sw.js gives
+    could only control pages under /static/ — serving it at /sw.js gives
     it scope over the whole site. Sent uncached so updates roll out.
     """
 
@@ -68,8 +69,8 @@ def service_worker():
     response.headers["Service-Worker-Allowed"] = "/"
     return response
 
-@home_bp.route("/tools")
 
+@home_bp.route("/tools")
 def all_tools():
     """Full catalogue grouped by category with live search + filters."""
     user = session.get("user")
