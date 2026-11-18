@@ -1,9 +1,14 @@
 /* ============================================================
-   GlassPDF Studio — Redesign layer (loaded LAST on every page)
+   GlassPDF Studio — Redesign layer v2 (loaded LAST on every page)
+   Design target: iLovePDF discipline — clean flat surfaces,
+   generous whitespace, small consistent icons, content first.
    - Poppins typeface (the free stand-in for Google Sans)
-   - iLovePDF-style tool cards: white surfaces, one solid colour
-     per tool family on the icon tile
-   - OKX-style motion: springy entrances, lifts and presses
+   - Variant B brand lockup (glass icon + two-tone wordmark)
+   - One solid colour per tool family on the icon tiles
+   - Spring motion kept subtle: entrances, lifts, presses
+   Structural homepage rules are scoped under .page-home; global
+   rules cover only the brand lockup, navbar, icon-size safety
+   and tool-card basics, since this sheet loads on every page.
    ============================================================ */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
@@ -27,9 +32,179 @@ h1, h2, h3 {
 }
 
 /* ============================================================
-   SPA dashboard (index.html / app.css)
+   Flat background — no ambient blobs / grid decor
    ============================================================ */
+.bg-decor {
+  display: none !important;
+}
 
+body {
+  background: var(--bg);
+}
+
+/* ============================================================
+   Navbar — solid bar with a hairline border, no floating pill
+   ============================================================ */
+.navbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding-block: 0;
+}
+
+.navbar__inner {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  padding-block: 10px;
+}
+
+.navbar.is-scrolled .navbar__inner {
+  box-shadow: none;
+}
+
+/* ============================================================
+   Brand lockup — Variant B (header + footer, every page)
+   One clean brand: glass icon tile + two-tone stacked wordmark.
+   ============================================================ */
+.brand {
+  font-family: "Poppins", "Google Sans", system-ui, sans-serif;
+}
+
+.brand__lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand__logo {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 9px;
+  display: block;
+}
+
+.brand__word {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.brand__name {
+  font-weight: 800;
+  font-size: 1.08rem;
+  letter-spacing: -0.01em;
+}
+
+.brand__glass {
+  color: #7d9cc4;
+}
+
+[data-theme="dark"] .brand__glass {
+  color: #b9d2f7;
+}
+
+.brand__pdf {
+  color: var(--text);
+}
+
+.brand__studio {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   Icon-size safety (GLOBAL)
+   The base sheet sets svg{width:100%;height:100%}, so every
+   icon container needs an explicit glyph size — without one
+   the SVG fills its card (the old 260px feature icons).
+   ============================================================ */
+.tool-card__icon svg { width: 24px; height: 24px; }
+.launch-tile__icon svg { width: 22px; height: 22px; }
+.feature__icon svg { width: 22px; height: 22px; }
+.hero-drop__icon svg { width: 26px; height: 26px; }
+.cat-card svg { width: 18px; height: 18px; }
+.tool-card__go svg { width: 16px; height: 16px; }
+.dropzone__icon svg { width: 30px; height: 30px; }
+.search-panel__icon svg { width: 20px; height: 20px; }
+.icon-btn svg { width: 20px; height: 20px; }
+
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn__icon svg { width: 18px; height: 18px; }
+
+/* ============================================================
+   Tool cards — flat surface, hairline border, tidy body stack
+   ============================================================ */
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: none;
+  transition: transform 350ms var(--spring), box-shadow 350ms ease, border-color 200ms ease;
+}
+
+.tool-card:hover,
+.tool-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -16px rgba(19, 22, 54, 0.25);
+  border-color: var(--border-2);
+}
+
+[data-theme="dark"] .tool-card:hover,
+[data-theme="dark"] .tool-card:focus-visible {
+  box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.65);
+}
+
+/* The scroll-reveal end state (.is-visible) outranks a plain
+   :hover rule — restate the lift at that specificity so
+   revealed cards still respond. */
+.tool-card[data-reveal].is-visible:hover,
+.tool-card[data-reveal].is-visible:focus-visible {
+  transform: translateY(-4px);
+}
+
+.tool-card__icon {
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.tool-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tool-card__title { display: block; }
+.tool-card__desc { display: block; }
+
+/* Category accents — approved solid family colours.
+   Setting --cat here (this sheet loads last) recolours the
+   Jinja icon tile, hover arrow and gradient edge in one move. */
+[data-cat="Organize PDF"]       { --cat: #e5322d; }
+[data-cat="Optimize PDF"]       { --cat: #2fb457; }
+[data-cat="Convert PDF"]        { --cat: #1e88e5; }
+[data-cat="Edit PDF"]           { --cat: #f59e0b; }
+[data-cat="PDF Security"]       { --cat: #7c3aed; }
+[data-cat="PDF Intelligence"]   { --cat: #0a84ff; }
+
+/* ============================================================
+   SPA dashboard (root index.html / app.css) — carried over
+   from v1: spring motion + per-tool solid icon tiles.
+   ============================================================ */
 .command-row h1 {
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -40,36 +215,6 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-/* --- Tool cards: clean lift, spring motion --- */
-.tool-card {
-  animation: cardIn 560ms var(--spring) both;
-  transition: transform 350ms var(--spring), box-shadow 350ms ease, border-color 200ms ease;
-  will-change: transform;
-}
-
-@keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.tool-card:hover,
-.tool-card:focus-visible {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 60px rgba(37, 49, 70, 0.18), inset 0 1px rgba(255, 255, 255, 0.72);
-}
-
-.tool-card:active {
-  transform: translateY(-2px) scale(0.98);
-  transition-duration: 120ms;
-}
-
-/* --- Icon tiles: one solid colour per tool family (iLovePDF style) --- */
 .tool-icon,
 .modal-icon,
 .panel-icon {
@@ -151,7 +296,7 @@ h1, h2, h3 {
 .tool-card[data-tool="redact_pdf"] .tool-icon,
 .tool-card[data-tool="compare_pdf"] .tool-icon {
   background: #7c3aed;
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.35), inset 0 -8px 14px rgba(0, 0, 0, 0.12), 0 10px 22px rgba(124, 58, 237, 0.3);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.35), inset 0 -8px 14px rgba(0, 0, 0, 0.12), 0 10px 22px rgba(124, 58, 237, 0.28);
 }
 
 /* Card arrow nudges forward on hover */
@@ -163,7 +308,7 @@ h1, h2, h3 {
   transform: translateX(3px);
 }
 
-/* --- Tabs, buttons, inputs: springy presses --- */
+/* Tabs, buttons, inputs: springy presses */
 .category-tabs button,
 .theme-switch button,
 .primary-btn,
@@ -193,11 +338,11 @@ h1, h2, h3 {
 }
 
 .search-wrap input:focus {
-  box-shadow: 0 0 0 4px var(--focus);
+  box-shadow: 0 0 0 4px var(--focus, rgba(10, 132, 255, 0.25));
   outline: none;
 }
 
-/* --- Modal: spring pop --- */
+/* Modal: spring pop */
 .modal-backdrop {
   animation: fadeIn 220ms ease both;
 }
@@ -235,12 +380,22 @@ h1, h2, h3 {
 }
 
 /* ============================================================
-   Templated pages (layout.html — auth, tools, pricing…)
+   Templated pages (auth, tools, pricing…) — shared touches
    ============================================================ */
-
 .glass-card {
   animation: cardIn 560ms var(--spring) both;
   transition: transform 300ms var(--spring), box-shadow 300ms ease;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .btn {
@@ -264,6 +419,118 @@ h1, h2, h3 {
 .field__control:focus {
   box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.18);
   outline: none;
+}
+
+/* ============================================================
+   Homepage (.page-home) — iLovePDF rhythm: one centred column,
+   even section spacing, no dead air
+   ============================================================ */
+.page-home .hero {
+  padding: 72px 0 16px;
+}
+
+.page-home .hero__inner {
+  display: block;
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.page-home .hero__lead {
+  margin-inline: auto;
+}
+
+.page-home .hero-drop {
+  max-width: 580px;
+  margin-inline: auto;
+  text-align: left;
+}
+
+.page-home .hero__trust {
+  justify-content: center;
+}
+
+.page-home .tools-section,
+.page-home .cats,
+.page-home .features {
+  padding: 54px 0;
+}
+
+.page-home .section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 34px;
+}
+
+.page-home .section-sub {
+  margin-inline: auto;
+}
+
+/* Feature cards — flat, small icon tile, no stray fragments.
+   The old sliver was the inline .feature__icon span fragmenting
+   around its block-level SVG; a fixed flex tile ends that. */
+.page-home .feature {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: none;
+}
+
+.page-home .feature::before,
+.page-home .feature::after {
+  content: none !important;
+  display: none !important;
+}
+
+.page-home .feature__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 11px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--brand-500) 12%, transparent);
+  color: var(--brand-500);
+  margin-bottom: 1rem;
+}
+
+.page-home .feature__title {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.page-home .feature__text {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+/* Category cards — clean borders, no accent bar / blob artifacts */
+.page-home .cat-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.page-home .cat-card::before,
+.page-home .cat-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+.page-home .cat-card:hover {
+  border-color: var(--border-2);
+}
+
+/* CTA band — sits directly after the features, no glow, no gap */
+.page-home .cta-band {
+  margin-top: 0;
+  padding: 64px 0;
+}
+
+.page-home .cta-band__glow {
+  display: none;
 }
 
 /* ---------- Reduced motion ---------- */
