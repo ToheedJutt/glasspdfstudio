@@ -40,21 +40,6 @@
           <span>{{ 'gift' | svg_icon | safe }} No watermarks</span>
         </div>
       </div>
-
-      {# Floating preview card cluster. #}
-      <div class="hero__visual" aria-hidden="true" data-reveal>
-        <div class="hero-card hero-card--main">
-          <div class="hero-card__bar"><span></span><span></span><span></span></div>
-          <div class="hero-card__lines">
-            <i style="--w:88%"></i><i style="--w:96%"></i><i style="--w:70%"></i>
-            <i style="--w:82%"></i><i style="--w:60%"></i>
-          </div>
-          <div class="hero-card__badge">{{ 'check' | svg_icon | safe }} Ready</div>
-        </div>
-        <div class="hero-chip hero-chip--merge">{{ 'merge' | svg_icon | safe }} Merge</div>
-        <div class="hero-chip hero-chip--compress">{{ 'compress' | svg_icon | safe }} Compress</div>
-        <div class="hero-chip hero-chip--convert">{{ 'doc' | svg_icon | safe }} Convert</div>
-      </div>
     </div>
   </section>
 
@@ -79,18 +64,6 @@
       <a class="launch-chooser__all" href="{{ url_for('home.all_tools') }}">See all tools →</a>
     </div>
   </div>
-
-  {# ================================================================ #}
-  {# STATS BAND                                                       #}
-  {# ================================================================ #}
-  <section class="stats">
-    <div class="container stats__inner">
-      <div class="stat" data-reveal><span class="stat__num" data-count="33">33</span><span class="stat__label">PDF tools</span></div>
-      <div class="stat" data-reveal><span class="stat__num" data-count="100">100</span><span class="stat__suffix">%</span><span class="stat__label">Free forever</span></div>
-      <div class="stat" data-reveal><span class="stat__num" data-count="0">0</span><span class="stat__label">Watermarks</span></div>
-      <div class="stat" data-reveal><span class="stat__num" data-count="6">6</span><span class="stat__label">Tool categories</span></div>
-    </div>
-  </section>
 
   {# ================================================================ #}
   {# FEATURED TOOLS GRID                                              #}
@@ -156,12 +129,12 @@
 
       <div class="feature-grid">
         {% set features = [
-          {'icon':'bolt','title':'Blazing fast','text':'Optimised processing gets your files back in seconds, not minutes.'},
-          {'icon':'shield','title':'Private and secure','text':'Your documents are processed on your own machine and never shared.'},
-          {'icon':'star','title':'No watermarks','text':'Clean, professional output every time — we never brand your files.'},
-          {'icon':'gift','title':'Completely free','text':'Every tool is free to use with no hidden limits or paywalls.'},
-          {'icon':'cloud','title':'Cloud processing','text':'Heavy lifting handled for you, so even large PDFs feel light.'},
-          {'icon':'offline','title':'Works offline','text':'Run the studio locally and keep working without an internet connection.'}
+          {'icon':'bolt','title':'Fast by design','text':'Tools are tuned to finish in seconds, even on big files.'},
+          {'icon':'shield','title':'Private by default','text':'The desktop app runs 100% on your machine — files you process there never leave it.'},
+          {'icon':'check','title':'No watermarks, ever','text':'Clean, professional output with no branding added to your documents.'},
+          {'icon':'gift','title':'Free, all of it','text':'Every tool is free. No trials, no page limits, no paywall tricks.'},
+          {'icon':'offline','title':'Works offline','text':'Install the desktop app and keep working with no connection at all.'},
+          {'icon':'doc','title':'Everyday formats','text':'PDF, Word, Excel, PowerPoint and images — convert between them freely.'}
         ] %}
         {% for f in features %}
           <div class="feature" data-reveal style="--i: {{ loop.index0 }}">
