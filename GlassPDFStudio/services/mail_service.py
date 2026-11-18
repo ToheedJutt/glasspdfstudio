@@ -2,10 +2,21 @@
 
 from __future__ import annotations
 
+import os
+
 from flask import render_template_string
 from flask_mail import Mail, Message
 
 mail = Mail()
+
+
+def mail_configured() -> bool:
+    """True only when real SMTP credentials are present in the environment.
+
+    Without these, no email can actually leave the server — callers must
+    never tell the user a code was "sent" when this is False.
+    """
+    return bool(os.getenv("MAIL_USERNAME") and os.getenv("MAIL_PASSWORD"))
 
 
 def send_otp_email(email: str, otp: str, type_: str = "signup") -> bool:
@@ -39,6 +50,15 @@ def send_otp_email(email: str, otp: str, type_: str = "signup") -> bool:
             <h1 style="color: #0ea5e9; letter-spacing: 2px;">{{ otp }}</h1>
             <p>This code expires in 15 minutes.</p>
             <p>If you didn't request this, please ignore this email and your password will remain unchanged.</p>
+            """
+        elif type_ == "login":
+            subject = "Your GlassPDFStudio sign-in code"
+            template = """
+            <h2>Sign-in Code</h2>
+            <p>Use this code to sign in to GlassPDFStudio:</p>
+            <h1 style="color: #0ea5e9; letter-spacing: 2px;">{{ otp }}</h1>
+            <p>This code expires in 5 minutes.</p>
+            <p>If you didn't request this, please ignore this email and your account will remain secure.</p>
             """
         else:
             return False
