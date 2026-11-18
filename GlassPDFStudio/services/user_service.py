@@ -10,8 +10,8 @@ import secrets
 from datetime import datetime, timedelta
 from typing import List, Optional
 
-from models import db, User, PendingSignup, PasswordReset, TrialBlock
-from services.mail_service import send_otp_email
+from models import db, User, PendingSignup, PasswordReset, TrialBlock, LoginOTP, FileActivity
+from services.mail_service import send_otp_email, mail_configured
 
 # Free tier tools - limited selection for users after trial expires or non-trial users
 FREE_TIER_TOOLS = [
@@ -107,6 +107,111 @@ def verify_pending_signup(email: str, otp: str) -> bool:
     return True
 
 
+def create_account(email: str, password: str) -> User:
+    """Create an account immediately — no email-OTP gate.
+
+    Signup must never strand a user waiting for an email that may not
+    arrive: the account is created verified and the caller logs the
+    user straight in. Raises ValueError if the email is taken.
+    """
+    email = _clean_email(email)
+    if User.query.filter_by(email=email).first():
+        raise ValueError("User already exists")
+    # A stale pending signup for this email is superseded by the real account.
+    pending = PendingSignup.query.filter_by(email=email).first()
+    if pending:
+        db.session.delete(pending)
+    user = User(email=email)
+    user.set_password(password)
+    db.session.add(user)
+    db.session.commit()
+    return user
+
+
+def create_login_otp(email: str) -> bool:
+    """Email a one-time sign-in code to an existing user.
+
+    Returns True ONLY when the email was actually delivered. When mail
+    is not configured, or delivery fails, returns False so the UI can
+    say so honestly instead of claiming a code was sent.
+    """
+    email = _clean_email(email)
+    if not User.query.filter_by(email=email).first():
+        return False
+    if not mail_configured():
+        return False
+    otp = f"{secrets.randbelow(900000)+100000}"
+    existing = LoginOTP.query.filter_by(email=email).first()
+    if existing:
+        db.session.delete(existing)
+    db.session.add(LoginOTP(email=email, otp=otp))
+    db.session.commit()
+    if not send_otp_email(email, otp, type_="login"):
+        # Delivery failed — remove the undeliverable code.
+        record = LoginOTP.query.filter_by(email=email).first()
+        if record:
+            db.session.delete(record)
+            db.session.commit()
+        return False
+    return True
+
+
+def verify_login_otp(email: str, otp: str) -> bool:
+    """Check a sign-in code (5-minute expiry, single use)."""
+    email = _clean_email(email)
+    record = LoginOTP.query.filter_by(email=email).first()
+    if not record:
+        return False
+    if datetime.utcnow() - record.created_at > timedelta(seconds=OTP_EXPIRY_SECONDS):
+        db.session.delete(record)
+        db.session.commit()
+        return False
+    if str(record.otp) != str(otp):
+        return False
+    db.session.delete(record)
+    db.session.commit()
+    return True
+
+
+def record_activity(email: str, tool: str, input_names: list, output_name: str,
+                      job_id: str, output_size: int) -> None:
+    """Add one entry to a member's file history (their signup benefit)."""
+    entry = FileActivity(
+        email=_clean_email(email),
+        tool=tool,
+        input_names=", ".join(input_names),
+        output_name=output_name,
+        job_id=job_id,
+        output_size=int(output_size or 0),
+    )
+    db.session.add(entry)
+    db.session.commit()
+
+
+def list_activity(email: str, limit: int = 50) -> list:
+    """Newest-first file history for a member, with display-ready fields."""
+    rows = (
+        FileActivity.query.filter_by(email=_clean_email(email))
+        .order_by(FileActivity.created_at.desc(), FileActivity.id.desc())
+        .limit(limit)
+        .all()
+    )
+    entries = []
+    for row in rows:
+        label = row.tool.replace("_", " ").title().replace(" Pdf", " PDF")
+        entries.append(
+            {
+                "tool_label": label,
+                "input_names": row.input_names,
+                "output_name": row.output_name,
+                "job_id": row.job_id,
+                "size_kb": max(1, round(row.output_size / 1024)) if row.output_size else 0,
+                "when": row.created_at.strftime("%d %b %Y, %H:%M") if row.created_at else "",
+            }
+        )
+    return entries
+
+
 def authenticate_user(email: str, password: str) -> bool:
     """Authenticate user by email and password."""
     email = _clean_email(email)
@@ -139,11 +244,11 @@ def start_password_reset(email: str) -> Optional[str]:
     db.session.add(reset)
     db.session.commit()
     
-    # Send OTP via email
-    send_otp_email(email, otp, type_="reset")
+    # Send OTP via email — report honestly whether it actually went out
+    sent = mail_configured() and send_otp_email(email, otp, type_="reset")
     print(f"[OTP] password reset for {email}: {otp}")
     
-    return otp
+    return bool(sent)
 
 
 def resend_password_reset(email: str) -> Optional[str]:
@@ -163,11 +268,11 @@ def resend_password_reset(email: str) -> Optional[str]:
     reset.created_at = datetime.utcnow()  # Reset timestamp on resend
     db.session.commit()
     
-    # Send OTP via email
-    send_otp_email(email, otp, type_="reset")
+    # Send OTP via email — report honestly whether it actually went out
+    sent = mail_configured() and send_otp_email(email, otp, type_="reset")
     print(f"[OTP] resend password reset for {email}: {otp}")
     
-    return otp
+    return bool(sent)
 
 
 def verify_password_reset(email: str, otp: str, new_password: str) -> bool:
