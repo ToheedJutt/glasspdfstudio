@@ -5,63 +5,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GlassPDF Studio — Local-first PDF toolkit</title>
 <meta name="description" content="GlassPDF Studio is a free, open-source PDF toolkit that runs 100% on your own machine. Merge, split, compress, convert, watermark, protect and edit PDFs from a frosted-glass dashboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0b1020; --panel:rgba(255,255,255,.07); --panel-border:rgba(255,255,255,.14);
     --text:#eef1f8; --muted:#a7b0c5; --accent:#6ea8fe; --accent2:#9b7ff2;
+    --spring:cubic-bezier(.34,1.45,.64,1);
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-    background:radial-gradient(1100px 600px at 15% -10%,#27407a 0%,transparent 60%),
-               radial-gradient(900px 550px at 90% 0%,#3d2a6e 0%,transparent 55%),
-               radial-gradient(800px 700px at 50% 110%,#123a4d 0%,transparent 60%),var(--bg);
-    color:var(--text);min-height:100vh}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Poppins","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+  .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;background:
+    radial-gradient(1100px 600px at 15% -10%,#1d3465 0%,transparent 60%),
+    radial-gradient(900px 550px at 90% 0%,#2e2160 0%,transparent 55%),
+    radial-gradient(800px 700px at 50% 110%,#0e2f40 0%,transparent 60%),var(--bg)}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
+  .blob.b1{width:520px;height:520px;left:-120px;top:-140px;background:#2b5cff;animation:drift1 22s ease-in-out infinite alternate}
+  .blob.b2{width:460px;height:460px;right:-100px;top:6%;background:#7a4dff;animation:drift2 26s ease-in-out infinite alternate}
+  .blob.b3{width:420px;height:420px;left:38%;bottom:-220px;background:#0e9bb5;animation:drift3 30s ease-in-out infinite alternate}
+  @keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(130px,70px) scale(1.15)}}
+  @keyframes drift2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-110px,90px) scale(.95)}}
+  @keyframes drift3{from{transform:translate(0,0) scale(1)}to{transform:translate(-90px,-70px) scale(1.2)}}
   .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 64px}
-  header{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--panel);
-    border:1px solid var(--panel-border);border-radius:18px;backdrop-filter:blur(14px)}
+  header{position:sticky;top:14px;z-index:10;display:flex;align-items:center;gap:12px;padding:14px 20px;
+    background:rgba(16,22,44,.55);border:1px solid var(--panel-border);border-radius:18px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    animation:drop .7s var(--spring) both}
+  @keyframes drop{from{opacity:0;transform:translateY(-18px) scale(.98)}to{opacity:1;transform:none}}
   .mark{width:34px;height:34px;border-radius:10px;flex:none;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+    background:linear-gradient(135deg,var(--accent),var(--accent2));background-size:160% 160%;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 6px 18px rgba(110,168,254,.35);
+    animation:markShift 6s ease-in-out infinite alternate}
+  @keyframes markShift{from{background-position:0% 0%}to{background-position:100% 100%}}
   header .name{font-weight:700;font-size:18px;letter-spacing:.2px}
   header nav{margin-left:auto;display:flex;gap:18px}
-  header nav a{color:var(--muted);text-decoration:none;font-size:14.5px}
+  header nav a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;position:relative;padding:2px 0}
+  header nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;border-radius:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s var(--spring)}
   header nav a:hover{color:var(--text)}
-  .hero{text-align:center;padding:72px 16px 30px}
-  .eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:2.5px;font-size:12.5px;font-weight:700}
-  h1{font-size:clamp(34px,6vw,58px);line-height:1.08;margin:16px auto 14px;max-width:820px}
-  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
-    -webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{color:var(--muted);font-size:clamp(16px,2.4vw,19px);max-width:680px;margin:0 auto 30px;line-height:1.55}
+  header nav a:hover::after{width:100%}
+  .hero{text-align:center;padding:74px 16px 26px}
+  .hero>*{animation:rise .8s var(--spring) both}
+  .hero>*:nth-child(2){animation-delay:.08s}.hero>*:nth-child(3){animation-delay:.16s}
+  .hero>*:nth-child(4){animation-delay:.24s}.hero>*:nth-child(5){animation-delay:.34s}
+  @keyframes rise{from{opacity:0;transform:translateY(26px) scale(.985)}to{opacity:1;transform:none}}
+  .eyebrow{display:inline-block;color:#cfe0ff;text-transform:uppercase;letter-spacing:2.5px;font-size:12px;
+    font-weight:600;padding:7px 16px;border:1px solid var(--panel-border);border-radius:999px;
+    background:rgba(255,255,255,.05);backdrop-filter:blur(8px)}
+  h1{font-size:clamp(34px,6vw,58px);line-height:1.08;margin:20px auto 14px;max-width:840px;font-weight:800}
+  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2),#4dd0c4,var(--accent));
+    background-size:280% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:gradMove 7s linear infinite}
+  @keyframes gradMove{from{background-position:0% 0}to{background-position:280% 0}}
+  .sub{color:var(--muted);font-size:clamp(16px,2.4vw,19px);max-width:680px;margin:0 auto 32px;line-height:1.55}
   .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .btn{display:inline-block;padding:13px 26px;border-radius:999px;font-weight:600;font-size:15.5px;
-    text-decoration:none;border:1px solid var(--panel-border)}
-  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none}
-  .btn.ghost{background:var(--panel);color:var(--text)}
-  .note{max-width:760px;margin:44px auto 0;padding:18px 22px;background:var(--panel);
+  .btn{display:inline-block;padding:13px 28px;border-radius:999px;font-weight:600;font-size:15.5px;
+    text-decoration:none;border:1px solid var(--panel-border);position:relative;overflow:hidden;
+    transition:transform .3s var(--spring),box-shadow .3s ease}
+  .btn:active{transform:scale(.97)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
+    box-shadow:0 10px 30px rgba(110,140,254,.35)}
+  .btn.primary::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);
+    transition:left .6s ease}
+  .btn.primary:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(110,140,254,.45)}
+  .btn.primary:hover::after{left:130%}
+  .btn.ghost{background:var(--panel);color:var(--text);backdrop-filter:blur(8px)}
+  .btn.ghost:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.35)}
+  .marquee{margin:52px auto 0;max-width:900px;overflow:hidden;position:relative;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+  .track{display:flex;gap:0;width:max-content;animation:scroll 30s linear infinite}
+  .marquee:hover .track{animation-play-state:paused}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .track span{padding:0 14px;color:var(--muted);font-size:14.5px;font-weight:500;white-space:nowrap}
+  .track b{color:var(--accent2);font-weight:400}
+  .note{max-width:760px;margin:40px auto 0;padding:18px 22px;background:var(--panel);
     border:1px solid var(--panel-border);border-radius:16px;color:var(--muted);
-    font-size:15px;line-height:1.6;text-align:left}
+    font-size:15px;line-height:1.6;text-align:left;backdrop-filter:blur(10px)}
   .note strong{color:var(--text)}
-  h2{font-size:26px;margin:58px 0 6px}
+  h2{font-size:26px;margin:58px 0 6px;font-weight:700}
   .h2sub{color:var(--muted);margin:0 0 22px;font-size:15.5px}
+  .rv{opacity:0;transform:translateY(28px) scale(.99);transition:opacity .7s ease,transform .7s var(--spring)}
+  .rv.on{opacity:1;transform:none}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
-  .card{background:var(--panel);border:1px solid var(--panel-border);border-radius:16px;
-    padding:20px;backdrop-filter:blur(10px)}
-  .card h3{margin:0 0 12px;font-size:16.5px;color:var(--accent)}
+  .card{background:var(--panel);border:1px solid var(--panel-border);border-radius:18px;
+    padding:22px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    transition:transform .35s var(--spring),box-shadow .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-7px);border-color:rgba(255,255,255,.3);
+    box-shadow:0 22px 44px rgba(0,0,0,.35)}
+  .tile{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+    margin-bottom:14px;transition:transform .35s var(--spring)}
+  .card:hover .tile{transform:scale(1.1) rotate(-4deg)}
+  .tile svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .t-red{background:#e5322d}.t-blue{background:#1e88e5}.t-amber{background:#f59e0b}.t-green{background:#2fb457}
+  .card h3{margin:0 0 12px;font-size:16.5px;font-weight:600}
   .card ul{margin:0;padding:0;list-style:none}
   .card li{padding:6px 0;color:var(--text);font-size:15px;border-bottom:1px dashed rgba(255,255,255,.08)}
   .card li:last-child{border-bottom:none}
   .card li span{color:var(--muted);font-size:13.5px;display:block}
+  .codebox{position:relative}
   pre{background:#0a0e1a;border:1px solid var(--panel-border);border-radius:14px;
-    padding:20px;overflow-x:auto;font-size:14px;line-height:1.65;color:#cfe3ff}
+    padding:20px;overflow-x:auto;font-size:14px;line-height:1.65;color:#cfe3ff;margin:0}
+  .copybtn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.08);color:var(--text);
+    border:1px solid var(--panel-border);border-radius:9px;padding:6px 13px;font-size:13px;font-weight:500;
+    font-family:inherit;cursor:pointer;transition:transform .25s var(--spring),background .25s ease}
+  .copybtn:hover{background:rgba(255,255,255,.16)}
+  .copybtn:active{transform:scale(.94)}
   .chips{display:flex;flex-wrap:wrap;gap:10px}
   .chip{background:var(--panel);border:1px solid var(--panel-border);border-radius:999px;
-    padding:8px 16px;font-size:14px;color:var(--text)}
+    padding:8px 16px;font-size:14px;color:var(--text);transition:transform .3s var(--spring),border-color .3s ease}
+  .chip:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.35)}
   footer{margin-top:64px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);
     color:var(--muted);font-size:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
   footer a{color:var(--accent);text-decoration:none}
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    .rv{opacity:1;transform:none}
+  }
 </style>
 </head>
 <body>
+<div class="aurora" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 <div class="wrap">
 
   <header>
@@ -84,18 +152,30 @@
       <a class="btn ghost" href="https://github.com/ToheedJutt/glasspdfstudio">Get it on GitHub</a>
       <a class="btn ghost" href="#run">Run it in 2 minutes</a>
     </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="track" id="track">
+        <span>Merge PDF <b>•</b></span><span>Split PDF <b>•</b></span><span>Compress <b>•</b></span>
+        <span>PDF to Word <b>•</b></span><span>Word to PDF <b>•</b></span><span>Watermark <b>•</b></span>
+        <span>Protect <b>•</b></span><span>Unlock <b>•</b></span><span>Rotate <b>•</b></span>
+        <span>PDF to JPG <b>•</b></span><span>JPG to PDF <b>•</b></span><span>Edit PDF <b>•</b></span>
+      </div>
+    </div>
     <div class="note">
       <strong>Why is there no “upload your PDF” button on this page?</strong>
       By design. GlassPDF Studio is local-first software: the studio runs on your own
       computer, so your files are never uploaded to anyone’s server — not even ours.
-      This page is the project’s home; the app itself is one quick install away, below. Or try the live demo first — it runs on a free server, so it may take a minute to wake up, and a few conversion tools run in reduced mode there.
+      This page is the project’s home; the app itself is one quick install away, below.
+      Prefer to click around first? The <a href="https://glasspdfstudio.onrender.com" style="color:var(--accent)">live demo</a>
+      runs in your browser — it sleeps when idle, so give it a minute to wake up, and Office
+      conversions and OCR run in reduced mode there. The full power is the local install.
     </div>
   </section>
 
-  <h2 id="tools">The tools</h2>
-  <p class="h2sub">Every tool below is built in and verified working.</p>
+  <h2 id="tools" class="rv">The tools</h2>
+  <p class="h2sub rv">Every tool below is built in and verified working.</p>
   <div class="grid">
-    <div class="card">
+    <div class="card rv">
+      <div class="tile t-red"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></div>
       <h3>Organize</h3>
       <ul>
         <li>Merge PDFs <span>Combine several files into one</span></li>
@@ -104,7 +184,8 @@
         <li>Rotate pages <span>Fix sideways scans in seconds</span></li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card rv">
+      <div class="tile t-blue"><svg viewBox="0 0 24 24"><path d="M4 7h13"/><path d="M13 3l4 4-4 4"/><path d="M20 17H7"/><path d="M11 13l-4 4 4 4"/></svg></div>
       <h3>Convert</h3>
       <ul>
         <li>PDF to Word, Excel, PowerPoint</li>
@@ -113,7 +194,8 @@
         <li>PDF to PDF/A <span>Archivable copy</span></li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card rv">
+      <div class="tile t-amber"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
       <h3>Edit &amp; secure</h3>
       <ul>
         <li>Edit PDF <span>Add text and shapes onto pages</span></li>
@@ -122,7 +204,8 @@
         <li>Unlock PDF <span>Remove a password from your copy</span></li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card rv">
+      <div class="tile t-green"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div>
       <h3>Images</h3>
       <ul>
         <li>PDF to JPG <span>Every page rendered as an image</span></li>
@@ -131,20 +214,23 @@
     </div>
   </div>
 
-  <h2 id="run">Run it yourself</h2>
-  <p class="h2sub">Needs Python 3.12+. On Windows, the repo’s <em>Start GlassPDFStudio.bat</em> does all of this for you.</p>
-  <pre>git clone https://github.com/ToheedJutt/glasspdfstudio.git
+  <h2 id="run" class="rv">Run it yourself</h2>
+  <p class="h2sub rv">Needs Python 3.12+. On Windows, the repo’s <em>Start GlassPDFStudio.bat</em> does all of this for you.</p>
+  <div class="codebox rv">
+    <button class="copybtn" id="copyBtn" type="button">Copy</button>
+    <pre id="installCode">git clone https://github.com/ToheedJutt/glasspdfstudio.git
 cd glasspdfstudio/GlassPDFStudio
 python -m venv .venv
 .venv\Scripts\activate        # Windows (source .venv/bin/activate on Mac/Linux)
 pip install -r requirements.txt
 python app.py</pre>
-  <p class="h2sub">Then open <strong>http://127.0.0.1:5055</strong> in your browser. Optional: install
+  </div>
+  <p class="h2sub rv" style="margin-top:18px">Then open <strong>http://127.0.0.1:5055</strong> in your browser. Optional: install
     LibreOffice for layout-accurate Office conversions and Tesseract for OCR — without them the
     app still works and tells you exactly what is missing.</p>
 
-  <h2>Built with</h2>
-  <div class="chips">
+  <h2 class="rv">Built with</h2>
+  <div class="chips rv">
     <span class="chip">Python</span><span class="chip">Flask</span><span class="chip">PyMuPDF</span>
     <span class="chip">pypdf</span><span class="chip">ReportLab</span><span class="chip">python-docx</span>
     <span class="chip">openpyxl</span><span class="chip">python-pptx</span><span class="chip">Pillow</span>
@@ -157,5 +243,22 @@ python app.py</pre>
   </footer>
 
 </div>
+<script>
+  var track = document.getElementById("track");
+  track.innerHTML += track.innerHTML;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var btn = this;
+    navigator.clipboard.writeText(document.getElementById("installCode").innerText).then(function () {
+      btn.textContent = "Copied ✓";
+      setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+    });
+  });
+</script>
 </body>
 </html>
