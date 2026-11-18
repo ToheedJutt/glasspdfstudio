@@ -25,6 +25,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='20'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ ASSET_VERSION }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}?v={{ ASSET_VERSION }}">
@@ -193,5 +195,12 @@
   <script src="{{ url_for('static', filename='js/upload.js') }}?v={{ ASSET_VERSION }}" defer></script>
   <script src="{{ url_for('static', filename='js/app.js') }}?v={{ ASSET_VERSION }}" defer></script>
   {% block extra_scripts %}{% endblock %}
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/sw.js").catch(function () {});
+      });
+    }
+  </script>
 </body>
 </html>
