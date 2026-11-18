@@ -54,3 +54,5 @@ outputs/
 # Database backups
 *.db-wal
 *.db-shm
+# Logs
+*.log
