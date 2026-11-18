@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}My files — {{ APP_NAME }}{% endblock %}
+{% block body_class %}page-account{% endblock %}
+
+{% block main %}
+  <section class="account">
+    <div class="container">
+      <h1>My files</h1>
+      <p>Signed in as <strong>{{ email }}</strong>. Every file you convert or generate while signed in is recorded here, so you can find it again and re-download it.</p>
+
+      {% if entries %}
+        <div class="glass-card">
+          {% for e in entries %}
+            <div style="display:flex;gap:1rem;align-items:center;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid rgba(127,127,127,.18)">
+              <div>
+                <strong>{{ e.tool_label }}</strong><br>
+                <span>{{ e.input_names }} → <strong>{{ e.output_name }}</strong>{% if e.size_kb %} · {{ e.size_kb }} KB{% endif %}</span><br>
+                <small>{{ e.when }}</small>
+              </div>
+              <a class="btn btn--ghost" href="/download/{{ e.job_id }}/{{ e.output_name }}">Download</a>
+            </div>
+          {% endfor %}
+        </div>
+        <p><small>Downloads stay available while the file is still on the server; the history record itself is permanent on your account.</small></p>
+      {% else %}
+        <div class="glass-card">
+          <p><strong>No files yet.</strong> Convert, merge or generate a PDF while signed in and it will appear here automatically.</p>
+          <p><a class="btn btn--primary" href="{{ url_for('home.all_tools') }}">Browse the tools</a></p>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
