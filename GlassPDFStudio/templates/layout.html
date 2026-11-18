@@ -72,6 +72,9 @@
 
         {% if session.get('user') %}
           {# Shown when user IS logged in #}
+          <a class="btn btn--ghost nav-history" href="{{ url_for('auth.account') }}">
+            My files
+          </a>
           <a class="btn btn--ghost nav-account" href="{{ url_for('home.pricing') }}">
             Account & Billing
           </a>
