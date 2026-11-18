@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign in with a code — {{ APP_NAME }}{% endblock %}
+{% block body_class %}page-auth{% endblock %}
+
+{% block main %}
+  <section class="auth">
+    <div class="container">
+      <h1>Enter your sign-in code</h1>
+      <p>We emailed a 6-digit code to <strong>{{ email.rstrip('.') if email else '' }}</strong>. It expires in 5 minutes.</p>
+      <form method="post" class="glass-card">
+        <input type="hidden" name="email" value="{{ email.rstrip('.') if email else '' }}">
+        <div class="field">
+          <label class="field__label">Sign-in code</label>
+          <input class="field__control" type="text" name="otp" autocomplete="one-time-code" required>
+        </div>
+        <div style="display:flex;gap:.7rem;align-items:center">
+          <button class="btn btn--primary" type="submit">Sign in</button>
+          <button class="btn btn--ghost" type="submit" name="resend" value="1">Resend code</button>
+        </div>
+      </form>
+      <p>Prefer your password? <a href="{{ url_for('auth.login') }}">Sign in with password</a></p>
+    </div>
+  </section>
+{% endblock %}
