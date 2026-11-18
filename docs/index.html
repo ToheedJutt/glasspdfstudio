@@ -39,9 +39,7 @@
     backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     animation:drop .7s var(--spring) both}
   @keyframes drop{from{opacity:0;transform:translateY(-18px) scale(.98)}to{opacity:1;transform:none}}
-  .mark{width:34px;height:34px;border-radius:10px;flex:none;object-fit:cover;display:block;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 6px 18px rgba(110,168,254,.35)}
-  header .name{font-weight:700;font-size:18px;letter-spacing:.2px}
+  .mark{height:38px;width:auto;border-radius:0;box-shadow:none;object-fit:contain;flex:none;display:block}
   header nav{margin-left:auto;display:flex;gap:18px}
   header nav a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;position:relative;padding:2px 0}
   header nav a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;border-radius:2px;
@@ -138,8 +136,7 @@
 <div class="wrap">
 
   <header>
-    <img class="mark" src="logo-icon.png" alt="GlassPDF Studio logo">
-    <span class="name">GlassPDF Studio</span>
+    <img class="mark" src="logo-lockup-b.png" alt="GlassPDF Studio">
     <nav>
       <a href="#tools">Tools</a>
       <a href="#run">Run it</a>
