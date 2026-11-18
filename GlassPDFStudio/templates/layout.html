@@ -50,9 +50,7 @@
   <header class="navbar" data-navbar>
     <div class="navbar__inner container">
       <a class="brand" href="{{ url_for('home.index') }}" aria-label="{{ APP_NAME }} home">
-        <span class="brand__mark" aria-hidden="true">{{ 'spark' | svg_icon | safe }}</span>
-        <img class="brand__logo" src="{{ url_for('static', filename='icons/icon-192.png') }}" alt="" width="30" height="30">
-        <span class="brand__name">Glass<span class="brand__accent">PDF</span>Studio</span>
+        <span class="brand__lockup"><img class="brand__logo" src="{{ url_for('static', filename='icons/icon-192.png') }}" alt="" width="36" height="36"><span class="brand__word"><span class="brand__name"><span class="brand__glass">Glass</span><span class="brand__pdf">PDF</span></span><span class="brand__studio">STUDIO</span></span></span>
       </a>
 
       <nav class="nav-menu" id="nav-menu" aria-label="Primary">
@@ -135,8 +133,7 @@
     <div class="container footer__inner">
       <div class="footer__brand">
         <a class="brand" href="{{ url_for('home.index') }}">
-          <span class="brand__mark" aria-hidden="true">{{ 'spark' | svg_icon | safe }}</span>
-          <span class="brand__name">Glass<span class="brand__accent">PDF</span>Studio</span>
+          <span class="brand__lockup"><img class="brand__logo" src="{{ url_for('static', filename='icons/icon-192.png') }}" alt="" width="36" height="36"><span class="brand__word"><span class="brand__name"><span class="brand__glass">Glass</span><span class="brand__pdf">PDF</span></span><span class="brand__studio">STUDIO</span></span></span>
         </a>
         <p class="footer__tag">
           Every PDF tool you'll ever need — fast, private and free.
