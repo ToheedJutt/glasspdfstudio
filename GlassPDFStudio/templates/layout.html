@@ -22,7 +22,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
 
@@ -57,7 +57,6 @@
         <a class="nav-link" href="{{ url_for('home.index') }}">Home</a>
         <a class="nav-link" href="{{ url_for('home.all_tools') }}">All Tools</a>
         <a class="nav-link" href="{{ url_for('home.ai_pdf') }}">AI PDF</a>
-        <a class="nav-link" href="{{ url_for('home.pricing') }}">Pricing</a>
         <a class="nav-link" href="{{ url_for('home.contact') }}">Contact</a>
       </nav>
 
@@ -77,9 +76,6 @@
           {# Shown when user IS logged in #}
           <a class="btn btn--ghost nav-history" href="{{ url_for('auth.account') }}">
             My files
-          </a>
-          <a class="btn btn--ghost nav-account" href="{{ url_for('home.pricing') }}">
-            Account & Billing
           </a>
           <a class="btn btn--primary nav-logout" href="{{ url_for('auth.logout') }}">
             Log out
@@ -157,7 +153,6 @@
           <h3 class="footer__title">Company</h3>
           <a href="{{ url_for('home.index') }}">About</a>
           <a href="{{ url_for('home.ai_pdf') }}">AI PDF</a>
-          <a href="{{ url_for('home.pricing') }}">Pricing</a>
           <a href="{{ url_for('home.contact') }}">Contact</a>
         </div>
         <div class="footer__col">
