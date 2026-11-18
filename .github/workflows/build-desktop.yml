@@ -1,0 +1,74 @@
+name: Build desktop apps
+
+# Manual runs from the Actions tab, plus automatic builds on version tags.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r GlassPDFStudio/requirements.txt -r GlassPDFStudio/requirements-desktop.txt pyinstaller
+
+      - name: Build with PyInstaller
+        working-directory: GlassPDFStudio
+        run: pyinstaller glasspdf.spec --noconfirm
+
+      # ---- Package per OS -------------------------------------------------
+      - name: Package (Windows -> zip)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path GlassPDFStudio/dist/GlassPDFStudio -DestinationPath GlassPDFStudio-Windows.zip
+
+      - name: Package (macOS -> dmg)
+        if: runner.os == 'macOS'
+        run: hdiutil create -volname "GlassPDF Studio" -srcfolder GlassPDFStudio/dist/GlassPDFStudio.app -ov -format UDZO GlassPDFStudio-macOS.dmg
+
+      - name: Package (Linux -> tar.gz)
+        if: runner.os == 'Linux'
+        # AppImage is intentionally skipped: producing one needs extra
+        # tooling (appimagetool + a .desktop/icon layout pass); the
+        # tar.gz of the one-folder build runs as-is.
+        run: tar -czf GlassPDFStudio-Linux.tar.gz -C GlassPDFStudio/dist GlassPDFStudio
+
+      # ---- Upload ---------------------------------------------------------
+      - name: Upload Windows build
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: GlassPDFStudio-Windows
+          path: GlassPDFStudio-Windows.zip
+
+      - name: Upload macOS build
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: GlassPDFStudio-macOS
+          path: GlassPDFStudio-macOS.dmg
+
+      - name: Upload Linux build
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: GlassPDFStudio-Linux
+          path: GlassPDFStudio-Linux.tar.gz
