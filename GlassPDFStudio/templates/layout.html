@@ -54,10 +54,11 @@
       </a>
 
       <nav class="nav-menu" id="nav-menu" aria-label="Primary">
-        <a class="nav-link" href="{{ url_for('home.index') }}">Home</a>
-        <a class="nav-link" href="{{ url_for('home.all_tools') }}">All Tools</a>
-        <a class="nav-link" href="{{ url_for('home.ai_pdf') }}">AI PDF</a>
-        <a class="nav-link" href="{{ url_for('home.contact') }}">Contact</a>
+        <a class="nav-link" href="{{ url_for('tools.page', slug='merge-pdf') }}">Merge PDF</a>
+        <a class="nav-link" href="{{ url_for('tools.page', slug='split-pdf') }}">Split PDF</a>
+        <a class="nav-link" href="{{ url_for('tools.page', slug='compress-pdf') }}">Compress PDF</a>
+        <a class="nav-link" href="{{ url_for('home.all_tools') }}#cat-convert-pdf">Convert PDF</a>
+        <a class="nav-link" href="{{ url_for('home.all_tools') }}">All PDF Tools</a>
       </nav>
 
       <div class="nav-actions">
@@ -84,7 +85,7 @@
           {# Shown when user IS NOT logged in #}
           <a class="btn btn--ghost nav-login" href="{{ url_for('auth.login') }}">Log in</a>
           <a class="btn btn--primary nav-signup" href="{{ url_for('auth.signup') }}">
-            Get started
+            Sign up
           </a>
         {% endif %}
 
@@ -150,17 +151,19 @@
 
       <nav class="footer__cols" aria-label="Footer">
         <div class="footer__col">
-          <h3 class="footer__title">Company</h3>
-          <a href="{{ url_for('home.index') }}">About</a>
-          <a href="{{ url_for('home.ai_pdf') }}">AI PDF</a>
-          <a href="{{ url_for('home.contact') }}">Contact</a>
-        </div>
-        <div class="footer__col">
-          <h3 class="footer__title">Resources</h3>
+          <h3 class="footer__title">Tools</h3>
           <a href="{{ url_for('home.all_tools') }}">All Tools</a>
           <a href="{{ url_for('tools.page', slug='merge-pdf') }}">Merge PDF</a>
           <a href="{{ url_for('tools.page', slug='compress-pdf') }}">Compress PDF</a>
           <a href="{{ url_for('tools.page', slug='pdf-to-word') }}">PDF to Word</a>
+          <a href="{{ url_for('tools.page', slug='pdf-to-jpg') }}">PDF to JPG</a>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__title">Product</h3>
+          <a href="{{ url_for('home.ai_pdf') }}">AI PDF</a>
+          <a href="{{ url_for('auth.signup') }}">Create account</a>
+          <a href="{{ url_for('home.contact') }}">Contact</a>
+          <a href="https://github.com/ToheedJutt/glasspdfstudio" target="_blank" rel="noopener">GitHub</a>
         </div>
         <div class="footer__col">
           <h3 class="footer__title">Legal</h3>
