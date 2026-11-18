@@ -18,7 +18,15 @@
         </div>
         <button class="btn btn--primary" type="submit">Sign in</button>
       </form>
+      <form method="post" action="{{ url_for('auth.login_otp_request') }}" class="glass-card">
+        <div class="field">
+          <label class="field__label">Or sign in with an email code</label>
+          <input class="field__control" type="email" name="email" placeholder="Email address" required>
+        </div>
+        <button class="btn btn--ghost" type="submit">Email me a sign-in code</button>
+      </form>
       <p><a href="{{ url_for('auth.forgot') }}">Forgot password?</a></p>
+      <p>Members get a personal history of every file they convert or generate — find and re-download your results anytime.</p>
       <p>New here? <a href="{{ url_for('auth.signup') }}">Create an account</a></p>
     </div>
   </section>
