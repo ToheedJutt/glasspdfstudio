@@ -5,6 +5,7 @@
 GlassPDF Studio is a full PDF utility suite that runs entirely on localhost: a Flask backend and a clean, iOS-style glass interface in the browser. No uploads to third-party servers, no file ever leaves your computer.
 
 ![Python](https://img.shields.io/badge/Python-3.12+-blue) ![Flask](https://img.shields.io/badge/Flask-3.x-lightgrey) ![License](https://img.shields.io/badge/License-MIT-green)
+**🌐 Project website:** [toheedjutt.github.io/glasspdfstudio](https://toheedjutt.github.io/glasspdfstudio/)
 
 ## Features
 
