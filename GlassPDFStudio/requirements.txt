@@ -12,3 +12,4 @@ flask-mail==0.9.1
 email-validator==2.2.0
 waitress==2.1.2
 psycopg[binary]==3.2.3
+cryptography>=42.0.0
