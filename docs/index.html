@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GlassPDF Studio — Local-first PDF toolkit</title>
+<meta name="description" content="GlassPDF Studio is a free, open-source PDF toolkit that runs 100% on your own machine. Merge, split, compress, convert, watermark, protect and edit PDFs from a frosted-glass dashboard.">
+<style>
+  :root{
+    --bg:#0b1020; --panel:rgba(255,255,255,.07); --panel-border:rgba(255,255,255,.14);
+    --text:#eef1f8; --muted:#a7b0c5; --accent:#6ea8fe; --accent2:#9b7ff2;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 600px at 15% -10%,#27407a 0%,transparent 60%),
+               radial-gradient(900px 550px at 90% 0%,#3d2a6e 0%,transparent 55%),
+               radial-gradient(800px 700px at 50% 110%,#123a4d 0%,transparent 60%),var(--bg);
+    color:var(--text);min-height:100vh}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 64px}
+  header{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--panel);
+    border:1px solid var(--panel-border);border-radius:18px;backdrop-filter:blur(14px)}
+  .mark{width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+  header .name{font-weight:700;font-size:18px;letter-spacing:.2px}
+  header nav{margin-left:auto;display:flex;gap:18px}
+  header nav a{color:var(--muted);text-decoration:none;font-size:14.5px}
+  header nav a:hover{color:var(--text)}
+  .hero{text-align:center;padding:72px 16px 30px}
+  .eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:2.5px;font-size:12.5px;font-weight:700}
+  h1{font-size:clamp(34px,6vw,58px);line-height:1.08;margin:16px auto 14px;max-width:820px}
+  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:clamp(16px,2.4vw,19px);max-width:680px;margin:0 auto 30px;line-height:1.55}
+  .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 26px;border-radius:999px;font-weight:600;font-size:15.5px;
+    text-decoration:none;border:1px solid var(--panel-border)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none}
+  .btn.ghost{background:var(--panel);color:var(--text)}
+  .note{max-width:760px;margin:44px auto 0;padding:18px 22px;background:var(--panel);
+    border:1px solid var(--panel-border);border-radius:16px;color:var(--muted);
+    font-size:15px;line-height:1.6;text-align:left}
+  .note strong{color:var(--text)}
+  h2{font-size:26px;margin:58px 0 6px}
+  .h2sub{color:var(--muted);margin:0 0 22px;font-size:15.5px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+  .card{background:var(--panel);border:1px solid var(--panel-border);border-radius:16px;
+    padding:20px;backdrop-filter:blur(10px)}
+  .card h3{margin:0 0 12px;font-size:16.5px;color:var(--accent)}
+  .card ul{margin:0;padding:0;list-style:none}
+  .card li{padding:6px 0;color:var(--text);font-size:15px;border-bottom:1px dashed rgba(255,255,255,.08)}
+  .card li:last-child{border-bottom:none}
+  .card li span{color:var(--muted);font-size:13.5px;display:block}
+  pre{background:#0a0e1a;border:1px solid var(--panel-border);border-radius:14px;
+    padding:20px;overflow-x:auto;font-size:14px;line-height:1.65;color:#cfe3ff}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--panel);border:1px solid var(--panel-border);border-radius:999px;
+    padding:8px 16px;font-size:14px;color:var(--text)}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);
+    color:var(--muted);font-size:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+  footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="mark" aria-hidden="true"></span>
+    <span class="name">GlassPDF Studio</span>
+    <nav>
+      <a href="#tools">Tools</a>
+      <a href="#run">Run it</a>
+      <a href="https://github.com/ToheedJutt/glasspdfstudio">GitHub</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Local-first PDF workspace</p>
+    <h1>All PDF actions in one <span class="grad">glassy dashboard.</span></h1>
+    <p class="sub">Merge, split, compress, convert, watermark, protect and edit PDFs —
+      free and open source, running 100% on your own machine.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/ToheedJutt/glasspdfstudio">Get it on GitHub</a>
+      <a class="btn ghost" href="#run">Run it in 2 minutes</a>
+    </div>
+    <div class="note">
+      <strong>Why is there no “upload your PDF” button on this page?</strong>
+      By design. GlassPDF Studio is local-first software: the studio runs on your own
+      computer, so your files are never uploaded to anyone’s server — not even ours.
+      This page is the project’s home; the app itself is one quick install away, below.
+    </div>
+  </section>
+
+  <h2 id="tools">The tools</h2>
+  <p class="h2sub">Every tool below is built in and verified working.</p>
+  <div class="grid">
+    <div class="card">
+      <h3>Organize</h3>
+      <ul>
+        <li>Merge PDFs <span>Combine several files into one</span></li>
+        <li>Split PDF <span>By pages or page ranges</span></li>
+        <li>Compress PDF <span>Shrink size with quality control</span></li>
+        <li>Rotate pages <span>Fix sideways scans in seconds</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Convert</h3>
+      <ul>
+        <li>PDF to Word, Excel, PowerPoint</li>
+        <li>Word, Excel, PowerPoint to PDF <span>Layout-accurate via LibreOffice</span></li>
+        <li>HTML to PDF</li>
+        <li>PDF to PDF/A <span>Archivable copy</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Edit &amp; secure</h3>
+      <ul>
+        <li>Edit PDF <span>Add text and shapes onto pages</span></li>
+        <li>Watermark <span>Custom text, position, opacity, color</span></li>
+        <li>Protect PDF <span>Add a password</span></li>
+        <li>Unlock PDF <span>Remove a password from your copy</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Images</h3>
+      <ul>
+        <li>PDF to JPG <span>Every page rendered as an image</span></li>
+        <li>JPG to PDF <span>Including a scan-style mode</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="run">Run it yourself</h2>
+  <p class="h2sub">Needs Python 3.12+. On Windows, the repo’s <em>Start GlassPDFStudio.bat</em> does all of this for you.</p>
+  <pre>git clone https://github.com/ToheedJutt/glasspdfstudio.git
+cd glasspdfstudio/GlassPDFStudio
+python -m venv .venv
+.venv\Scripts\activate        # Windows (source .venv/bin/activate on Mac/Linux)
+pip install -r requirements.txt
+python app.py</pre>
+  <p class="h2sub">Then open <strong>http://127.0.0.1:5055</strong> in your browser. Optional: install
+    LibreOffice for layout-accurate Office conversions and Tesseract for OCR — without them the
+    app still works and tells you exactly what is missing.</p>
+
+  <h2>Built with</h2>
+  <div class="chips">
+    <span class="chip">Python</span><span class="chip">Flask</span><span class="chip">PyMuPDF</span>
+    <span class="chip">pypdf</span><span class="chip">ReportLab</span><span class="chip">python-docx</span>
+    <span class="chip">openpyxl</span><span class="chip">python-pptx</span><span class="chip">Pillow</span>
+    <span class="chip">Glassmorphism UI</span>
+  </div>
+
+  <footer>
+    <span>GlassPDF Studio — an open-source project by <a href="https://github.com/ToheedJutt">Toheed Ahmad</a></span>
+    <span>MIT License · <a href="https://github.com/ToheedJutt/glasspdfstudio">Source code</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
