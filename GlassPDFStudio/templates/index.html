@@ -10,18 +10,14 @@
   <section class="hero">
     <div class="container hero__inner">
       <div class="hero__copy">
-        <span class="hero__eyebrow" data-reveal>
-          <span class="hero__eyebrow-dot"></span> 30+ premium PDF tools · 100% free
-        </span>
-        <h1 class="hero__title" data-reveal>
-          Every PDF Tool<br>You'll <span class="grad-text">Ever Need</span>
-        </h1>
+        <h1 class="hero__title" data-reveal>Every PDF tool you need, in one place</h1>
         <p class="hero__lead" data-reveal>
-          Merge, split, compress, convert and edit PDFs in seconds.
-          Beautifully simple, lightning fast and completely private.
+          Every tool you need to use PDFs, at your fingertips. All 33 tools are
+          100% FREE and easy to use! Merge, split, compress, convert, rotate,
+          unlock and watermark PDFs with just a few clicks.
         </p>
 
-        {# Large upload / drag-drop launcher. #}
+        {# Slim upload launcher — dropping files opens the tool chooser. #}
         <div class="hero-drop" data-hero-drop tabindex="0" role="button"
              aria-label="Upload PDF files to get started" data-reveal>
           <input type="file" data-hero-input multiple hidden
@@ -32,12 +28,6 @@
             <span>or click to choose from your device</span>
           </span>
           <span class="hero-drop__cta btn btn--primary">Select files</span>
-        </div>
-
-        <div class="hero__trust" data-reveal>
-          <span>{{ 'shield' | svg_icon | safe }} Private &amp; secure</span>
-          <span>{{ 'bolt' | svg_icon | safe }} No sign-up needed</span>
-          <span>{{ 'gift' | svg_icon | safe }} No watermarks</span>
         </div>
       </div>
     </div>
@@ -66,99 +56,127 @@
   </div>
 
   {# ================================================================ #}
-  {# FEATURED TOOLS GRID                                              #}
+  {# TOOLS — category pills + full grid                               #}
   {# ================================================================ #}
   <section class="tools-section" id="tools">
     <div class="container">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Popular tools</span>
-        <h2 class="section-title">Get started in one click</h2>
-        <p class="section-sub">The tools people reach for most — all free, all instant.</p>
+      <div class="filter-pills" data-reveal role="group" aria-label="Filter tools by category">
+        <button class="pill is-active" type="button" data-pill="all">All</button>
+        <button class="pill" type="button" data-pill="workflows">Workflows</button>
+        {% for cat in categories %}
+          <button class="pill" type="button" data-pill="{{ cat.id }}">{{ cat.id }}</button>
+        {% endfor %}
       </div>
 
       <div class="tool-grid">
-        {% for tool in featured_tools %}
-          {{ tool_card(tool, loop.index0) }}
-        {% endfor %}
-      </div>
-
-      <div class="tools-section__more" data-reveal>
-        <a class="btn btn--primary btn--lg" href="{{ url_for('home.all_tools') }}">
-          Explore all {{ ALL_TOOLS | length }} tools
-          <span class="btn__icon" aria-hidden="true">{{ 'arrow' | svg_icon | safe }}</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  {# ================================================================ #}
-  {# CATEGORY SHOWCASE                                                #}
-  {# ================================================================ #}
-  <section class="cats">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <span class="section-kicker">Everything in one place</span>
-        <h2 class="section-title">A tool for every job</h2>
-      </div>
-      <div class="cats__grid">
+        {% set ns = namespace(i=0) %}
         {% for cat in categories %}
-          <a class="cat-card" href="{{ url_for('home.all_tools') }}#cat-{{ cat.id | replace(' ', '-') | lower }}"
-             data-reveal data-cat="{{ cat.id }}" style="--accent: {{ cat.accent }}; --i: {{ loop.index0 }}">
-            <span class="cat-card__label">{{ cat.label }}</span>
-            <span class="cat-card__count">{{ tools_by_category[cat.id] | length }} tools</span>
-            <span class="cat-card__tools">
-              {% for t in tools_by_category[cat.id][:4] %}<span>{{ t.name }}</span>{% endfor %}
-            </span>
-            <span class="cat-card__go" aria-hidden="true">{{ 'arrow' | svg_icon | safe }}</span>
-          </a>
+          {% for tool in tools_by_category[cat.id] %}
+            {{ tool_card(tool, ns.i) }}
+            {% set ns.i = ns.i + 1 %}
+          {% endfor %}
         {% endfor %}
       </div>
     </div>
   </section>
 
   {# ================================================================ #}
-  {# WHY CHOOSE — FEATURES                                            #}
+  {# WORK YOUR WAY                                                    #}
   {# ================================================================ #}
-  <section class="features">
+  <section class="ways">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="section-kicker">Why GlassPDFStudio</span>
-        <h2 class="section-title">Built to feel effortless</h2>
-        <p class="section-sub">Powerful enough for pros, simple enough for everyone.</p>
+        <h2 class="section-title">Work your way</h2>
       </div>
-
-      <div class="feature-grid">
-        {% set features = [
-          {'icon':'bolt','title':'Fast by design','text':'Tools are tuned to finish in seconds, even on big files.'},
-          {'icon':'shield','title':'Private by default','text':'The desktop app runs 100% on your machine — files you process there never leave it.'},
-          {'icon':'check','title':'No watermarks, ever','text':'Clean, professional output with no branding added to your documents.'},
-          {'icon':'gift','title':'Free, all of it','text':'Every tool is free. No trials, no page limits, no paywall tricks.'},
-          {'icon':'offline','title':'Works offline','text':'Install the desktop app and keep working with no connection at all.'},
-          {'icon':'doc','title':'Everyday formats','text':'PDF, Word, Excel, PowerPoint and images — convert between them freely.'}
-        ] %}
-        {% for f in features %}
-          <div class="feature" data-reveal style="--i: {{ loop.index0 }}">
-            <span class="feature__icon" aria-hidden="true">{{ f.icon | svg_icon | safe }}</span>
-            <h3 class="feature__title">{{ f.title }}</h3>
-            <p class="feature__text">{{ f.text }}</p>
+      <div class="ways__grid">
+        <div class="way-card" data-reveal>
+          <div class="way-card__art" aria-hidden="true">{{ 'offline' | svg_icon | safe }}</div>
+          <div class="way-card__body">
+            <h3 class="way-card__title">Work offline with Desktop</h3>
+            <p class="way-card__text">Batch edit and manage documents locally, with no internet and no limits.</p>
           </div>
-        {% endfor %}
+        </div>
+        <div class="way-card" data-reveal>
+          <div class="way-card__art" aria-hidden="true">{{ 'doc' | svg_icon | safe }}</div>
+          <div class="way-card__body">
+            <h3 class="way-card__title">On-the-go with Mobile</h3>
+            <p class="way-card__text">Your favourite tools, right in your pocket. Keep working on your projects anytime, anywhere.</p>
+          </div>
+        </div>
+        <div class="way-card" data-reveal>
+          <div class="way-card__art" aria-hidden="true">{{ 'shield' | svg_icon | safe }}</div>
+          <div class="way-card__body">
+            <h3 class="way-card__title">Private by design</h3>
+            <p class="way-card__text">In the desktop app your files never leave your machine — no uploads, no tracking, no copies kept.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   {# ================================================================ #}
-  {# CTA BANNER                                                       #}
+  {# MEMBER HISTORY — the free account benefit                        #}
   {# ================================================================ #}
-  <section class="cta-band">
-    <div class="container cta-band__inner" data-reveal>
-      <div class="cta-band__glow" aria-hidden="true"></div>
-      <h2 class="cta-band__title">Ready to tame your PDFs?</h2>
-      <p class="cta-band__text">Pick a tool and get a polished result in seconds — no account, no cost.</p>
-      <div class="cta-band__actions">
-        <a class="btn btn--primary btn--lg" href="{{ url_for('home.all_tools') }}">Browse all tools</a>
-        <a class="btn btn--ghost btn--lg" href="{{ url_for('tools.page', slug='merge-pdf') }}">Try Merge PDF</a>
+  <section class="member">
+    <div class="container member__inner">
+      <div class="member__visual" data-reveal aria-hidden="true">
+        <img class="member__icon" src="{{ url_for('static', filename='icons/icon-512.png') }}" alt="" width="88" height="88">
+        <div class="member__rows">
+          <div class="member__row"><span class="member__file">merged.pdf</span><span class="member__tool">Merge PDF</span></div>
+          <div class="member__row"><span class="member__file">report.docx</span><span class="member__tool">PDF to Word</span></div>
+          <div class="member__row"><span class="member__file">compressed.pdf</span><span class="member__tool">Compress PDF</span></div>
+        </div>
+      </div>
+      <div class="member__copy" data-reveal>
+        <h2 class="member__title">Your files, remembered</h2>
+        <ul class="member__points">
+          <li>{{ 'check' | svg_icon | safe }} Every file you convert or generate is recorded on your account</li>
+          <li>{{ 'check' | svg_icon | safe }} Find and re-download your results anytime, from any device</li>
+          <li>{{ 'check' | svg_icon | safe }} Sign in with a password, or a one-time code emailed to you</li>
+        </ul>
+        <a class="btn btn--primary btn--lg" href="{{ url_for('auth.signup') }}">Create free account</a>
       </div>
     </div>
   </section>
+
+  {# ================================================================ #}
+  {# TRUST STRIP                                                      #}
+  {# ================================================================ #}
+  <section class="trust">
+    <div class="container">
+      <h2 class="trust__title" data-reveal>The PDF toolkit that respects your files</h2>
+      <p class="trust__text" data-reveal>
+        GlassPDF Studio gives you every tool you need to work efficiently with
+        your digital documents — completely free, with no watermarks and no
+        page limits, while keeping your data safe and secure.
+      </p>
+      <div class="trust__badges" data-reveal>
+        <span class="trust-badge">{{ 'gift' | svg_icon | safe }}<span><strong>100% FREE</strong><small>Every tool, forever</small></span></span>
+        <span class="trust-badge">{{ 'lock' | svg_icon | safe }}<span><strong>SECURE SSL ENCRYPTION</strong><small>HTTPS on every page</small></span></span>
+        <span class="trust-badge">{{ 'check' | svg_icon | safe }}<span><strong>OPEN SOURCE</strong><small>MIT licensed code</small></span></span>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script>
+    (function () {
+      var pills = document.querySelectorAll("[data-pill]");
+      var cards = document.querySelectorAll(".tool-grid .tool-card[data-category]");
+      pills.forEach(function (pill) {
+        pill.addEventListener("click", function () {
+          pills.forEach(function (p) { p.classList.remove("is-active"); });
+          pill.classList.add("is-active");
+          var f = pill.getAttribute("data-pill");
+          cards.forEach(function (card) {
+            var show = f === "all"
+              || card.getAttribute("data-category") === f
+              || (f === "workflows" && card.getAttribute("href").indexOf("create-workflow") !== -1);
+            card.style.display = show ? "" : "none";
+          });
+        });
+      });
+    })();
+  </script>
 {% endblock %}
