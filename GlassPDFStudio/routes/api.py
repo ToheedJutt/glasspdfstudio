@@ -16,7 +16,7 @@ import json
 import shutil
 import subprocess
 
-from flask import Blueprint, jsonify, request, send_from_directory
+from flask import Blueprint, jsonify, request, send_from_directory, session
 from werkzeug.utils import secure_filename
 
 from config import JOBS_DIR, Config
@@ -24,6 +24,31 @@ from services import TOOL_HANDLERS, ToolError
 from services.common import find_soffice, new_job, response_for, save_uploads
 
 api_bp = Blueprint("api", __name__)
+
+
+def _record_activity(tool_id: str, files, output, job_id: str) -> None:
+    """Save this job to the signed-in member's file history.
+
+    Best-effort by design: history is a member perk, and recording it
+    must never break the tool the user actually came for.
+    """
+    try:
+        user = session.get("user")
+        if not user:
+            return
+        first = output[0] if isinstance(output, (list, tuple)) else output
+        from services.user_service import record_activity
+
+        record_activity(
+            email=user,
+            tool=tool_id,
+            input_names=[f.name for f in files],
+            output_name=first.name,
+            job_id=job_id,
+            output_size=first.stat().st_size if first.exists() else 0,
+        )
+    except Exception:  # noqa: BLE001 - never let bookkeeping break a tool
+        pass
 
 
 def _get_options() -> dict:
@@ -49,6 +74,7 @@ def process_tool():
         files = save_uploads(upload_dir)
         opts = _get_options()
         output, message, details = TOOL_HANDLERS[tool_id](files, opts, output_dir)
+        _record_activity(tool_id, files, output, job_id)
         return jsonify({"ok": True, **response_for(job_id, output, message, details)})
     except ToolError as exc:
         return jsonify({"ok": False, "error": str(exc)}), 400
