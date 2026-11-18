@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, send_from_directory
 
 from catalog import (
     CATEGORIES,
@@ -11,7 +11,7 @@ from catalog import (
     get_tool,
     tools_by_category,
 )
-from config import Config
+from config import Config, STATIC_DIR
 from flask import session, request, redirect, flash
 from services.user_service import (
     start_trial, is_trial_active, trial_end_date,
@@ -54,8 +54,22 @@ def index():
         tools_by_category={c["id"]: tools_by_category(c["id"]) for c in CATEGORIES},
     )
 
+@home_bp.route("/sw.js")
+def service_worker():
+"""Serve the PWA service worker from the site root.
+
+    The file lives in static/, but a worker registered from /static/sw.js
+        could only control pages under /static/ — serving it at /sw.js gives
+    it scope over the whole site. Sent uncached so updates roll out.
+    """
+
+    response = send_from_directory(STATIC_DIR, "sw.js", mimetype="application/javascript")
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["Service-Worker-Allowed"] = "/"
+    return response
 
 @home_bp.route("/tools")
+
 def all_tools():
     """Full catalogue grouped by category with live search + filters."""
     user = session.get("user")
